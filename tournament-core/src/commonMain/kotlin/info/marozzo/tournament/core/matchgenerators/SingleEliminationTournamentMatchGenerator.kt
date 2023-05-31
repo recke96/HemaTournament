@@ -10,6 +10,12 @@ import kotlin.math.ceil
 import kotlin.math.log2
 import kotlin.random.Random
 
+/**
+ * [MatchGenerator] for single-elimination tournaments.
+ *
+ * Does *not* support seeding.
+ * Does support a number of [Participants][Participant] that is *unequal* to a power of two.
+ */
 class SingleEliminationTournamentMatchGenerator(private val random: Random = Random) : MatchGenerator {
     override fun generate(participants: Iterable<Participant>): ImmutableList<Match> {
         val competitors = participants
