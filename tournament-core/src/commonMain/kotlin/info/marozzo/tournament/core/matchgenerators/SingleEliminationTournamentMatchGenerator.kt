@@ -31,12 +31,12 @@ class SingleEliminationTournamentMatchGenerator(private val random: Random = Ran
 
         val firstRoundCompetitors = competitors.subList(0, firstRoundCount)
 
-        val matches = firstRoundCompetitors.windowed(2) { (a, b) -> Match(a, b) }.toMutableList()
+        val matches = firstRoundCompetitors.windowed(size = 2, step = 2) { (a, b) -> Match(a, b) }.toMutableList()
         var nextCompetitors =
             (competitors.subList(firstRoundCount, n) + matches.map { Competitor.WinnerOf(it) }).shuffled(random)
 
         for (i in 0 until (rounds - 1)) {
-            val roundMatches = nextCompetitors.windowed(2) { (a, b) -> Match(a, b) }
+            val roundMatches = nextCompetitors.windowed(size = 2, step = 2) { (a, b) -> Match(a, b) }
             matches.addAll(roundMatches)
 
             nextCompetitors = roundMatches.map { Competitor.WinnerOf(it) }.shuffled(random)
