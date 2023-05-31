@@ -37,7 +37,7 @@ data class Match(val a: Competitor, val b: Competitor) {
  * ([WinnerOf], [LoserOf]).
  */
 sealed class Competitor {
-    data class Fixed(val name: String): Competitor()
+    data class Fixed(val participant: Participant): Competitor()
     data class WinnerOf(val match: Match): Competitor()
     data class LoserOf(val match: Match): Competitor()
 }
