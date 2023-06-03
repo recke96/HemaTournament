@@ -8,10 +8,41 @@ package info.marozzo.tournament.core
  * If `[a] == [b]` then the match was a draw.
  */
 interface MatchResult<T> where T : Comparable<T> {
+    /**
+     * The match where this [MatchResult] occurred.
+     */
     val match: Match
+
+    /**
+     * Score of [Competitor] [Match.a]
+     */
     val a: T
+
+    /**
+     * Score of [Competitor] [Match.b]
+     */
     val b: T
 }
+
+/**
+ * The winner of the [MatchResult.match]
+ *
+ * @exception IllegalStateException Thrown if it is a draw.
+ */
+val <T : Comparable<T>> MatchResult<T>.winner: Competitor
+    get() = if (a > b) match.a else if (b > a) match.b else throw IllegalStateException(
+        "Can't select winner of draw: $this"
+    )
+
+/**
+ * The loser of the [MatchResult.match]
+ *
+ * @exception IllegalStateException Thrown it is a draw.
+ */
+val <T : Comparable<T>> MatchResult<T>.loser: Competitor
+    get() = if (a < b) match.a else if (b < a) match.b else throw IllegalStateException(
+        "Can't select loser of draw: $this"
+    )
 
 /**
  * Value class for the number of points awarded to a [Competitor].
