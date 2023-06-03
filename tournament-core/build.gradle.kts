@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "info.marozzo.tournament"
-version = "1.0.0-SNAPSHOT"
+version = "1.0-SNAPSHOT"
 
 val dokkaVersion = parent?.extra?.get("kotlin.dokka.version")
 
@@ -20,9 +20,8 @@ dependencies {
 
 kotlin {
 	jvm {
-		compilations.all {
-			kotlinOptions.jvmTarget = "17"
-		}
+		jvmToolchain(17)
+		withJava()
 	}
 
 	sourceSets {
