@@ -7,7 +7,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 class RoundRobinTournamentMatchGenerator : MatchGenerator {
-    override fun generate(participants: Iterable<Participant>): ImmutableList<Match> {
+    override fun generate(participants: ImmutableList<Participant>): ImmutableList<Match> {
         val circle = participants.map { Competitor.Fixed(it) }.toMutableList()
         val n = circle.size
 

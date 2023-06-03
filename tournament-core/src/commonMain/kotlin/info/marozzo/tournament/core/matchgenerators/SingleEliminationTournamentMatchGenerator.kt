@@ -17,7 +17,7 @@ import kotlin.random.Random
  * Does support a number of [Participants][Participant] that is *unequal* to a power of two.
  */
 class SingleEliminationTournamentMatchGenerator(private val random: Random = Random) : MatchGenerator {
-    override fun generate(participants: Iterable<Participant>): ImmutableList<Match> {
+    override fun generate(participants: ImmutableList<Participant>): ImmutableList<Match> {
         val competitors = participants
             .toSet()
             .map { Competitor.Fixed(it) }
