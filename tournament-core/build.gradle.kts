@@ -2,29 +2,26 @@
 
 plugins {
 	kotlin("multiplatform")
+	id("org.jetbrains.dokka")
 }
 
 group = "info.marozzo.tournament"
 version = "1.0.0-SNAPSHOT"
 
+val dokkaVersion = parent?.extra?.get("kotlin.dokka.version")
+
 repositories {
 	mavenCentral()
+}
+
+dependencies {
+	dokkaPlugin("org.jetbrains.dokka:mathjax-plugin:$dokkaVersion")
 }
 
 kotlin {
 	jvm {
 		compilations.all {
 			kotlinOptions.jvmTarget = "17"
-		}
-	}
-
-	js(IR) {
-		browser {
-			testTask {
-				useKarma {
-					useChromeHeadless()
-				}
-			}
 		}
 	}
 
@@ -46,13 +43,6 @@ kotlin {
 		val jvmTest by getting {
 			dependencies {
 				implementation(kotlin("test-junit"))
-			}
-		}
-
-		val jsMain by getting
-		val jsTest by getting {
-			dependencies {
-				implementation(kotlin("test-js"))
 			}
 		}
 	}
