@@ -5,6 +5,7 @@ import info.marozzo.tournament.core.Match
 import info.marozzo.tournament.core.Participant
 import info.marozzo.tournament.core.matchgenerators.MatchGenerator
 import info.marozzo.tournament.core.matchgenerators.RoundRobinTournamentMatchGenerator
+import kotlinx.collections.immutable.persistentListOf
 import kotlin.test.Test
 
 class RoundRobinTournamentMatchGeneratorTests {
@@ -12,7 +13,7 @@ class RoundRobinTournamentMatchGeneratorTests {
     @Test
     fun noParticipantResultsInNoMatches() {
         // Arrange
-        val participants = listOf<Participant>()
+        val participants = persistentListOf<Participant>()
         val sut: MatchGenerator = RoundRobinTournamentMatchGenerator()
 
         // Act
@@ -25,7 +26,7 @@ class RoundRobinTournamentMatchGeneratorTests {
     @Test
     fun oneParticipantResultsInNoMatches() {
         // Arrange
-        val participants = listOf(Participant("1"))
+        val participants = persistentListOf(Participant("1"))
         val sut: MatchGenerator = RoundRobinTournamentMatchGenerator()
 
         // Act
@@ -40,7 +41,7 @@ class RoundRobinTournamentMatchGeneratorTests {
         // Arrange
         val p1 = Participant("1")
         val p2 = Participant("2")
-        val participants = listOf(p1, p2)
+        val participants = persistentListOf(p1, p2)
         val expected = Match(Competitor.Fixed(p1), Competitor.Fixed(p2))
         val sut: MatchGenerator = RoundRobinTournamentMatchGenerator()
 
@@ -57,8 +58,8 @@ class RoundRobinTournamentMatchGeneratorTests {
         val p1 = Participant("1")
         val p2 = Participant("2")
         val p3 = Participant("3")
-        val participants = listOf(p1, p2, p3)
-        val expected = listOf(
+        val participants = persistentListOf(p1, p2, p3)
+        val expected = persistentListOf(
             Match(Competitor.Fixed(p2), Competitor.Fixed(p3)),
             Match(Competitor.Fixed(p1), Competitor.Fixed(p2)),
             Match(Competitor.Fixed(p3), Competitor.Fixed(p1)),
@@ -79,8 +80,8 @@ class RoundRobinTournamentMatchGeneratorTests {
         val p2 = Participant("2")
         val p3 = Participant("3")
         val p4 = Participant("4")
-        val participants = listOf(p1, p2, p3, p4)
-        val expected = listOf(
+        val participants = persistentListOf(p1, p2, p3, p4)
+        val expected = persistentListOf(
             Match(Competitor.Fixed(p1), Competitor.Fixed(p2)),
             Match(Competitor.Fixed(p1), Competitor.Fixed(p3)),
             Match(Competitor.Fixed(p1), Competitor.Fixed(p4)),
