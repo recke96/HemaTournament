@@ -29,9 +29,7 @@ fun App() {
         ) { padding ->
             HorizontalSplitPane(modifier = Modifier.padding(padding), splitPaneState = splitPaneState) {
                 first(minSize = 300.dp) {
-                    Surface(modifier = Modifier.fillMaxSize()){
-                        Text("First")
-                    }
+                    Settings(modifier = Modifier.padding(horizontal = 5.dp))
                 }
                 splitter { visiblePart { Box(modifier = Modifier.background(Color.Black).fillMaxHeight().width(2.dp)) } }
                 second(minSize = 300.dp) {
