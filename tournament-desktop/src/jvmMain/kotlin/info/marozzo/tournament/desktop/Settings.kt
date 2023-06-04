@@ -54,6 +54,7 @@ fun Settings(
     }
 
     Column(modifier = modifier.fillMaxSize()) {
+        Text("Settings", style = MaterialTheme.typography.h4, modifier = Modifier.fillMaxWidth())
         Select(value = generator, onValueChanged = { onGeneratorChanged(it) }, options = generators, renderValue = {
             when (it) {
                 is SingleEliminationTournamentMatchGenerator -> Text("Single Elimination")
