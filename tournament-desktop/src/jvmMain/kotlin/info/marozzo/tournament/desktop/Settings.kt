@@ -9,9 +9,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.Key
@@ -19,23 +17,36 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.text.input.ImeAction
 import info.marozzo.tournament.core.Participant
+import info.marozzo.tournament.core.matchgenerators.MatchGenerator
 import info.marozzo.tournament.core.matchgenerators.RoundRobinTournamentMatchGenerator
 import info.marozzo.tournament.core.matchgenerators.SingleEliminationTournamentMatchGenerator
 import info.marozzo.tournament.desktop.components.Select
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class)
 @Composable
-fun Settings(modifier: Modifier = Modifier): Unit = Surface(modifier = modifier.fillMaxSize()) {
+fun Settings(
+    generator: MatchGenerator,
+    onGeneratorChanged: (MatchGenerator) -> Unit,
+    participants: ImmutableList<Participant>,
+    onParticipantAdd: (Participant) -> Unit,
+    onParticipantRemove: (Participant) -> Unit,
+    modifier: Modifier = Modifier
+): Unit = Surface(modifier = modifier.fillMaxSize()) {
     val generators =
         remember { persistentListOf(SingleEliminationTournamentMatchGenerator(), RoundRobinTournamentMatchGenerator()) }
-    val (generator, setGenerator) = remember { mutableStateOf(generators.first()) }
 
     val (currentText, setCurrentText) = remember { mutableStateOf("") }
-    val (participants, setParticipants) = remember { mutableStateOf(persistentListOf<Participant>()) }
+    val isValid by remember(currentText, participants) {
+        derivedStateOf {
+            currentText.isNotBlank() && !participants.any { it.name == currentText }
+        }
+    }
+
     fun addParticipant() {
-        if (currentText.isNotBlank()) {
-            setParticipants(participants.add(0, Participant(currentText)))
+        if (isValid) {
+            onParticipantAdd(Participant(currentText))
             setCurrentText("")
         }
     }
@@ -43,7 +54,7 @@ fun Settings(modifier: Modifier = Modifier): Unit = Surface(modifier = modifier.
     Column(modifier = modifier.fillMaxSize()) {
         Select(
             value = generator,
-            onValueChanged = { setGenerator(it) },
+            onValueChanged = { onGeneratorChanged(it) },
             options = generators,
             renderValue = {
                 when (it) {
