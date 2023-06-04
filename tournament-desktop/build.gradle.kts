@@ -26,6 +26,8 @@ kotlin {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 project(":tournament-core")
+
+                implementation("org.jetbrains.compose.components:components-splitpane-desktop:1.4.0")
             }
         }
         val jvmTest by getting
