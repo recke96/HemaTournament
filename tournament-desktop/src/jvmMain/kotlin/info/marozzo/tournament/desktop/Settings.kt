@@ -48,7 +48,7 @@ fun Settings(
 
     fun addParticipant() {
         if (isValid) {
-            onParticipantAdd(Participant(currentText))
+            onParticipantAdd(Participant(currentText.trim()))
             setCurrentText("")
         }
     }
