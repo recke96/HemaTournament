@@ -9,6 +9,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -52,17 +54,12 @@ fun Settings(
     }
 
     Column(modifier = modifier.fillMaxSize()) {
-        Select(
-            value = generator,
-            onValueChanged = { onGeneratorChanged(it) },
-            options = generators,
-            renderValue = {
-                when (it) {
-                    is SingleEliminationTournamentMatchGenerator -> Text("Single Elimination")
-                    is RoundRobinTournamentMatchGenerator -> Text("Round-Robin")
-                }
-            },
-            modifier = Modifier.fillMaxWidth()
+        Select(value = generator, onValueChanged = { onGeneratorChanged(it) }, options = generators, renderValue = {
+            when (it) {
+                is SingleEliminationTournamentMatchGenerator -> Text("Single Elimination")
+                is RoundRobinTournamentMatchGenerator -> Text("Round-Robin")
+            }
+        }, modifier = Modifier.fillMaxWidth()
         )
         TextField(
             value = currentText,
@@ -74,14 +71,19 @@ fun Settings(
                 } else false
             },
             label = { Text("Participant") },
+            isError = !isValid,
             singleLine = true,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
             keyboardActions = KeyboardActions { addParticipant() },
         )
         // TODO: Add scrollbar: https://github.com/JetBrains/compose-multiplatform/tree/master/tutorials/Desktop_Components
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
-            items(participants) { participant ->
-                ListItem() {
+            items(participants, key = { it.name }) { participant ->
+                ListItem(trailing = {
+                    IconButton(onClick = { onParticipantRemove(participant) }) {
+                        Icon(Icons.Default.Close, contentDescription = "Delete")
+                    }
+                }) {
                     Text(participant.name)
                 }
                 Divider()
