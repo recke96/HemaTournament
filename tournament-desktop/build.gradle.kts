@@ -25,11 +25,16 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
-                project(":tournament-core")
+
+                implementation(project(":tournament-core"))
+
+                implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
+                implementation("org.jetbrains.compose.components:components-splitpane-desktop:1.4.0")
             }
         }
         val jvmTest by getting
     }
+    jvmToolchain(11)
 }
 
 compose.desktop {
@@ -42,3 +47,4 @@ compose.desktop {
         }
     }
 }
+

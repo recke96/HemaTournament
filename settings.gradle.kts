@@ -6,7 +6,6 @@ pluginManagement {
 	}
 
 	plugins {
-		id("me.qoomon.git-versioning") version "6.4.2"
 		kotlin("multiplatform") version (extra["kotlin.version"] as String) apply false
 		id("org.jetbrains.dokka") version (extra["kotlin.dokka.version"] as String) apply false
 		id("org.jetbrains.compose") version (extra["compose.version"] as String) apply false
