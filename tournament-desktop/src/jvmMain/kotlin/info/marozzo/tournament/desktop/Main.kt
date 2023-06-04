@@ -1,35 +1,36 @@
 package info.marozzo.tournament.desktop
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.window.*
 
 @Composable
 @Preview
 fun App() {
-    var text by remember { mutableStateOf("Hello, World!") }
-
     MaterialTheme {
         Scaffold(
             topBar = { TournamentPlannerAppBar() }
-        ) {
-            Button(onClick = {
-                text = "Hello, Desktop!"
-            }) {
-                Text(text)
+        ) { padding ->
+            BoxWithConstraints(modifier = Modifier.padding(padding)) {
+
             }
         }
     }
 }
 
 fun main() = application {
-    Window(onCloseRequest = ::exitApplication) {
+    Window(
+        title = "Tournament Planner",
+        onCloseRequest = ::exitApplication) {
         App()
     }
 }
