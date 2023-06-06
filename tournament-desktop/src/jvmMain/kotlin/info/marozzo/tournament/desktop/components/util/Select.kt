@@ -1,4 +1,4 @@
-package info.marozzo.tournament.desktop.components
+package info.marozzo.tournament.desktop.components.util
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Column

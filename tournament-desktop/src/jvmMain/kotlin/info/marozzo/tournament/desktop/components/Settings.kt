@@ -1,4 +1,4 @@
-package info.marozzo.tournament.desktop
+package info.marozzo.tournament.desktop.components
 
 
 import androidx.compose.foundation.layout.Column
@@ -22,7 +22,7 @@ import info.marozzo.tournament.core.Participant
 import info.marozzo.tournament.core.matchgenerators.MatchGenerator
 import info.marozzo.tournament.core.matchgenerators.RoundRobinTournamentMatchGenerator
 import info.marozzo.tournament.core.matchgenerators.SingleEliminationTournamentMatchGenerator
-import info.marozzo.tournament.desktop.components.Select
+import info.marozzo.tournament.desktop.components.util.Select
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 

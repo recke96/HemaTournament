@@ -1,4 +1,4 @@
-package info.marozzo.tournament.desktop
+package info.marozzo.tournament.desktop.components
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.material.*
