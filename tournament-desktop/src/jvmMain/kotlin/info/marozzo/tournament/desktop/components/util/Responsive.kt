@@ -4,7 +4,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.WindowState
+import androidx.compose.ui.window.FrameWindowScope
+import java.awt.event.ComponentAdapter
+import java.awt.event.ComponentEvent
 
 enum class WidthClass {
 
@@ -28,9 +30,26 @@ enum class WidthClass {
 }
 
 @Composable
-fun rememberWidthClass(width: Int?) = with(LocalDensity.current) {
-    remember(this, width) {
+fun FrameWindowScope.WithWidthClass(content: @Composable () -> Unit) = with(LocalDensity.current) {
+    val (width, setWidth) = remember { mutableStateOf<Int?>(null) }
+
+    DisposableEffect(Unit) {
+        val listener = object : ComponentAdapter() {
+            override fun componentResized(e: ComponentEvent) {
+                setWidth(e.component.size.width)
+            }
+        }
+        window.addComponentListener(listener)
+
+        onDispose { window.removeComponentListener(listener) }
+    }
+
+    val widthClass by remember(this, width) {
         derivedStateOf { WidthClass.get(width?.toDp() ?: Dp.Unspecified) }
+    }
+
+    CompositionLocalProvider(LocalWidthClass provides widthClass) {
+        content()
     }
 }
 

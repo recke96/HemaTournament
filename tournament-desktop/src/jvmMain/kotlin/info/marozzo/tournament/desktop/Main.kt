@@ -5,22 +5,19 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.runtime.*
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import info.marozzo.tournament.desktop.components.App
-import info.marozzo.tournament.desktop.components.util.LocalWidthClass
-import info.marozzo.tournament.desktop.components.util.rememberWidthClass
-import java.awt.event.ComponentAdapter
-import java.awt.event.ComponentEvent
+import info.marozzo.tournament.desktop.components.util.WithWidthClass
 
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -35,21 +32,7 @@ fun main() = application {
         state = windowState,
         onCloseRequest = { setIsCloseRequested(true) },
     ) {
-        val (width, setWidth) = remember { mutableStateOf<Int?>(null) }
-
-        DisposableEffect(Unit) {
-            val listener = object : ComponentAdapter() {
-                override fun componentResized(e: ComponentEvent) {
-                    setWidth(e.component.size.width)
-                }
-            }
-            window.addComponentListener(listener)
-
-            onDispose { window.removeComponentListener(listener) }
-        }
-
-        val widthClass by rememberWidthClass(width)
-        CompositionLocalProvider(LocalWidthClass provides widthClass) {
+        WithWidthClass {
 
             App()
 
