@@ -23,8 +23,8 @@ enum class WidthClass {
 
     operator fun contains(width: Dp): Boolean = when (this) {
         Compact -> width < 600.dp
-        Medium -> 600.dp < width && width < 840.dp
-        Expanded -> width > 840.dp
+        Medium -> 600.dp <= width && width < 840.dp
+        Expanded -> 840.dp <= width
         Unspecified -> false
     }
 }
