@@ -14,6 +14,8 @@ import info.marozzo.tournament.desktop.components.util.LocalWidthClass
 fun TournamentPlannerAppBar() {
     val (isMenuOpen, setIsMenuOpen) = remember { mutableStateOf(false) }
 
+    NavigationRail {  }
+
     TopAppBar(
         title = { Text("Tournament Planner ${LocalWidthClass.current}") },
         navigationIcon = {
