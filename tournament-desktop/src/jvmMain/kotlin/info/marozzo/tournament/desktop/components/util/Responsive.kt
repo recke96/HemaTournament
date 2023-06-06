@@ -60,6 +60,9 @@ fun Responsive(
     compact: (@Composable () -> Unit)? = null,
     medium: (@Composable () -> Unit)? = null,
     expanded: (@Composable () -> Unit)? = null
-): Unit {
-
+) = when (LocalWidthClass.current) {
+    WidthClass.Compact -> compact?.invoke()
+    WidthClass.Medium -> medium?.invoke() ?: compact?.invoke()
+    WidthClass.Expanded -> expanded?.invoke() ?: medium?.invoke() ?: compact?.invoke()
+    WidthClass.Unspecified -> Unit
 }
