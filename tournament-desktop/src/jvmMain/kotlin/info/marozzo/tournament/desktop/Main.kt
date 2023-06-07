@@ -11,6 +11,7 @@ import androidx.compose.ui.window.rememberWindowState
 import info.marozzo.tournament.desktop.components.App
 import info.marozzo.tournament.desktop.components.CloseConfirmationDialog
 import info.marozzo.tournament.desktop.components.util.WithWidthClass
+import info.marozzo.tournament.desktop.theme.AppTheme
 
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -25,15 +26,17 @@ fun main() = application {
         state = windowState,
         onCloseRequest = { setIsCloseRequested(true) },
     ) {
-        WithWidthClass {
+        AppTheme {
+            WithWidthClass {
 
-            App()
+                App()
 
-            CloseConfirmationDialog(
-                isCloseRequested = isCloseRequested,
-                onClose = { exitApplication() },
-                onDismiss = { setIsCloseRequested(false) }
-            )
+                CloseConfirmationDialog(
+                    isCloseRequested = isCloseRequested,
+                    onClose = { exitApplication() },
+                    onDismiss = { setIsCloseRequested(false) }
+                )
+            }
         }
     }
 }
