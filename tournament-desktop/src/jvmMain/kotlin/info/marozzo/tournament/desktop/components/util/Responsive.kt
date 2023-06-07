@@ -1,5 +1,6 @@
 package info.marozzo.tournament.desktop.components.util
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
@@ -60,9 +61,11 @@ fun Responsive(
     compact: (@Composable () -> Unit)? = null,
     medium: (@Composable () -> Unit)? = null,
     expanded: (@Composable () -> Unit)? = null
-) = when (LocalWidthClass.current) {
-    WidthClass.Compact -> compact?.invoke()
-    WidthClass.Medium -> medium?.invoke() ?: compact?.invoke()
-    WidthClass.Expanded -> expanded?.invoke() ?: medium?.invoke() ?: compact?.invoke()
-    WidthClass.Unspecified -> Unit
+) = Crossfade(LocalWidthClass.current) {
+    when (it) {
+        WidthClass.Compact -> compact?.invoke()
+        WidthClass.Medium -> medium?.invoke() ?: compact?.invoke()
+        WidthClass.Expanded -> expanded?.invoke() ?: medium?.invoke() ?: compact?.invoke()
+        WidthClass.Unspecified -> Unit
+    }
 }
