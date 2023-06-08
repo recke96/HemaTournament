@@ -2,7 +2,6 @@ package info.marozzo.tournament.desktop.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -18,7 +17,6 @@ import info.marozzo.tournament.core.Participant
 import info.marozzo.tournament.core.matchgenerators.MatchGenerator
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -39,12 +37,10 @@ fun Matches(
     LaunchedEffect(generator, participants) {
         setIsLoading(true)
         setMatches(generator.generate(participants))
-        delay(250)
         setIsLoading(false)
     }
 
-    Column(modifier = modifier.fillMaxSize()) {
-        Text("Matches", style = MaterialTheme.typography.h4, modifier = Modifier.fillMaxWidth())
+    Column {
         AnimatedVisibility(visible = isLoading) {
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
         }

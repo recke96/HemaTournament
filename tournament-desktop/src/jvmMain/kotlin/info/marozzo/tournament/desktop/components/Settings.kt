@@ -2,7 +2,6 @@ package info.marozzo.tournament.desktop.components
 
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -53,8 +52,7 @@ fun Settings(
         }
     }
 
-    Column(modifier = modifier.fillMaxSize()) {
-        Text("Settings", style = MaterialTheme.typography.h4, modifier = Modifier.fillMaxWidth())
+    Column {
         Select(value = generator, onValueChanged = { onGeneratorChanged(it) }, options = generators, renderValue = {
             when (it) {
                 is SingleEliminationTournamentMatchGenerator -> Text("Single Elimination")

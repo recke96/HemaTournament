@@ -1,6 +1,6 @@
 package info.marozzo.tournament.desktop.components
 
-import androidx.compose.animation.*
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -21,6 +21,7 @@ import info.marozzo.tournament.core.matchgenerators.RoundRobinTournamentMatchGen
 import info.marozzo.tournament.desktop.components.util.LocalWidthClass
 import info.marozzo.tournament.desktop.components.util.Responsive
 import info.marozzo.tournament.desktop.components.util.WidthClass
+import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -67,80 +68,119 @@ fun App() {
         } else null
     ) { padding ->
         Responsive(
-            compact = {
-                val (showSettings, setShowSettings) = remember { mutableStateOf(true) }
-                val (showMatches, setShowMatches) = remember { mutableStateOf(false) }
+            compact = { CompactAppContent(generator, setGenerator, participants, setParticipants, padding) },
+            expanded = { ExpandedAppContent(generator, setGenerator, participants, setParticipants, padding) }
+        )
+    }
+}
 
-                Column(
-                    modifier = Modifier.padding(
-                        start = 5.dp,
-                        top = padding.calculateTopPadding(),
-                        end = 5.dp,
-                        bottom = padding.calculateBottomPadding()
-                    )
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun CompactAppContent(
+    generator: MatchGenerator,
+    setGenerator: (MatchGenerator) -> Unit,
+    participants: PersistentList<Participant>,
+    setParticipants: (PersistentList<Participant>) -> Unit,
+    padding: PaddingValues,
+) {
+    val (showSettings, setShowSettings) = remember { mutableStateOf(true) }
+    val (showMatches, setShowMatches) = remember { mutableStateOf(false) }
+
+    Column(
+        modifier = Modifier.padding(
+            start = 5.dp,
+            top = padding.calculateTopPadding(),
+            end = 5.dp,
+            bottom = padding.calculateBottomPadding()
+        ).fillMaxHeight()
+    ) {
+        ListItem(modifier = Modifier.clickable(onClickLabel = if (showSettings) "Close settings" else "Open settings") {
+            setShowSettings(
+                !showSettings
+            )
+        }) {
+            Column {
+                Text("Settings", style = MaterialTheme.typography.h4)
+                AnimatedVisibility(
+                    visible = showSettings
                 ) {
-                    ListItem(modifier = Modifier.clickable(onClickLabel = if (showSettings) "Close settings" else "Open settings") { setShowSettings(!showSettings) }) {
-                        Text("Settings", style = MaterialTheme.typography.h4)
-                        AnimatedVisibility(visible = showSettings, enter = slideInVertically(), exit = slideOutVertically()) {
-                            Settings(
-                                generator = generator,
-                                onGeneratorChanged = { setGenerator(it) },
-                                participants = participants,
-                                onParticipantAdd = { setParticipants(participants.add(0, it)) },
-                                onParticipantRemove = { setParticipants(participants.remove(it)) },
-                            )
-                        }
-                    }
-                    Divider()
-                    ListItem(modifier = Modifier.clickable(onClickLabel = if (showMatches) "Close matches" else "Open matches") { setShowMatches(!showMatches) }) {
-                        Text("Matches", style = MaterialTheme.typography.h4)
-                        AnimatedVisibility(visible = showMatches) {
-                            Matches(
-                                generator = generator,
-                                participants = participants,
-                            )
-                        }
-                    }
-                }
-            },
-            expanded = {
-                Row {
-                    NavigationRail {
-                        NavigationRailItem(
-                            selected = true,
-                            onClick = { println("HOME") },
-                            icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
-                        )
-                    }
-                    Box(
-                        modifier = Modifier.padding(
-                            PaddingValues(
-                                start = 10.dp,
-                                top = padding.calculateTopPadding(),
-                                end = 10.dp,
-                                bottom = padding.calculateBottomPadding()
-                            )
-                        )
-                    ) {
-                        Row {
-                            Settings(
-                                generator = generator,
-                                onGeneratorChanged = { setGenerator(it) },
-                                participants = participants,
-                                onParticipantAdd = { setParticipants(participants.add(0, it)) },
-                                onParticipantRemove = { setParticipants(participants.remove(it)) },
-                                modifier = Modifier.fillMaxWidth(0.5f).padding(end = 5.dp),
-                            )
-                            Matches(
-                                generator = generator,
-                                participants = participants,
-                                modifier = Modifier.fillMaxWidth().padding(start = 5.dp),
-                            )
-                        }
-                    }
+                    Settings(
+                        generator = generator,
+                        onGeneratorChanged = { setGenerator(it) },
+                        participants = participants,
+                        onParticipantAdd = { setParticipants(participants.add(0, it)) },
+                        onParticipantRemove = { setParticipants(participants.remove(it)) },
+                    )
                 }
             }
-        )
+        }
+        Divider()
+        ListItem(modifier = Modifier.clickable(onClickLabel = if (showMatches) "Close matches" else "Open matches") {
+            setShowMatches(
+                !showMatches
+            )
+        }) {
+            Column {
+                Text("Matches", style = MaterialTheme.typography.h4)
+                AnimatedVisibility(visible = showMatches) {
+                    Matches(
+                        generator = generator,
+                        participants = participants,
+                    )
+                }
+            }
+        }
+    }
+}
 
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun ExpandedAppContent(
+    generator: MatchGenerator,
+    setGenerator: (MatchGenerator) -> Unit,
+    participants: PersistentList<Participant>,
+    setParticipants: (PersistentList<Participant>) -> Unit,
+    padding: PaddingValues,
+) {
+    Row {
+        NavigationRail {
+            NavigationRailItem(
+                selected = true,
+                onClick = { println("HOME") },
+                icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
+            )
+        }
+        Box(
+            modifier = Modifier.padding(
+                PaddingValues(
+                    start = 10.dp,
+                    top = padding.calculateTopPadding(),
+                    end = 10.dp,
+                    bottom = padding.calculateBottomPadding()
+                )
+            )
+        ) {
+            Row {
+                Column {
+                    Text("Settings", style = MaterialTheme.typography.h4)
+                    Settings(
+                        generator = generator,
+                        onGeneratorChanged = { setGenerator(it) },
+                        participants = participants,
+                        onParticipantAdd = { setParticipants(participants.add(0, it)) },
+                        onParticipantRemove = { setParticipants(participants.remove(it)) },
+                        modifier = Modifier.fillMaxWidth(0.5f).padding(end = 5.dp),
+                    )
+                }
+                Column {
+                    Text("Matches", style = MaterialTheme.typography.h4)
+                    Matches(
+                        generator = generator,
+                        participants = participants,
+                        modifier = Modifier.fillMaxWidth().padding(start = 5.dp),
+                    )
+                }
+            }
+        }
     }
 }
