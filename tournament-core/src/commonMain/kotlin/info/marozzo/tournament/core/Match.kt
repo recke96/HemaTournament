@@ -5,12 +5,12 @@ import kotlinx.collections.immutable.mutate
 import kotlinx.collections.immutable.toPersistentList
 
 /**
- * A [Match] that should be played.
+ * A [Match] that should be played as part of a tournament.
  *
  * This does not imply home / away positions of [Competitors][Competitor] but is an unordered pair.
  * This means `([a], [b]) == ([b], [a])`.
  */
-data class Match(val a: Competitor, val b: Competitor) {
+data class Match(val rank: Ordinal, val a: Competitor, val b: Competitor) {
 
     /**
      * A [Match] is equal if the [Competitors][Competitor] are the same,
@@ -49,7 +49,7 @@ fun Match.replaceWinnersAndLosers(result: MatchResult<*>): Match {
     val newB = b.resolve(result)
 
     if (a != newA || b != newB) {
-        return Match(newA, newB)
+        return Match(rank, newA, newB)
     }
 
     return this

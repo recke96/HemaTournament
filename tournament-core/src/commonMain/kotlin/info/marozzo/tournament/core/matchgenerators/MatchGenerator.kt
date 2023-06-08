@@ -2,6 +2,7 @@ package info.marozzo.tournament.core.matchgenerators
 
 import info.marozzo.tournament.core.Match
 import info.marozzo.tournament.core.Participant
+import info.marozzo.tournament.core.Round
 import kotlinx.collections.immutable.ImmutableList
 
 /**
@@ -13,7 +14,9 @@ interface MatchGenerator {
 
     /**
      * Generate the matches for the given [participants].
+     *
+     * @return One or more [Rounds][Round] of [Matches][Match] to be played.
      */
-    suspend fun generate(participants: ImmutableList<Participant>): ImmutableList<Match>
+    suspend fun generate(participants: ImmutableList<Participant>): ImmutableList<Round>
 
 }
