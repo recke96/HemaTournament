@@ -5,9 +5,11 @@ import info.marozzo.tournament.core.Match
 import info.marozzo.tournament.core.Participant
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.ensureActive
+import kotlin.coroutines.coroutineContext
 
 class RoundRobinTournamentMatchGenerator : MatchGenerator {
-    override fun generate(participants: ImmutableList<Participant>): ImmutableList<Match> {
+    override suspend fun generate(participants: ImmutableList<Participant>): ImmutableList<Match> {
         val circle = participants.map { Competitor.Fixed(it) }.toMutableList()
         val n = circle.size
 
@@ -25,6 +27,7 @@ class RoundRobinTournamentMatchGenerator : MatchGenerator {
         val matches = persistentListOf<Match>().builder()
 
         for (round in 1..rounds) {
+            coroutineContext.ensureActive()
 
             if (fixed != null) {
                 matches.add(Match(fixed, circle.last()))

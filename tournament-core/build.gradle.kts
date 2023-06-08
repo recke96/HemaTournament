@@ -28,6 +28,7 @@ kotlin {
 		val commonMain by getting {
 			dependencies {
 				implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
+				implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
 			}
 		}
 		val commonTest by getting {
@@ -45,6 +46,5 @@ kotlin {
 			}
 		}
 	}
-	jvmToolchain(11)
 }
 

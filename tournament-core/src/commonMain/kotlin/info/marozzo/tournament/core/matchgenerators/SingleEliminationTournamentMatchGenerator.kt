@@ -6,6 +6,8 @@ import info.marozzo.tournament.core.Participant
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.ensureActive
+import kotlin.coroutines.coroutineContext
 import kotlin.math.ceil
 import kotlin.math.log2
 import kotlin.random.Random
@@ -17,7 +19,7 @@ import kotlin.random.Random
  * Does support a number of [Participants][Participant] that is *unequal* to a power of two.
  */
 class SingleEliminationTournamentMatchGenerator(private val random: Random = Random) : MatchGenerator {
-    override fun generate(participants: ImmutableList<Participant>): ImmutableList<Match> {
+    override suspend fun generate(participants: ImmutableList<Participant>): ImmutableList<Match> {
         val competitors = participants
             .toSet()
             .map { Competitor.Fixed(it) }
@@ -42,6 +44,8 @@ class SingleEliminationTournamentMatchGenerator(private val random: Random = Ran
             (competitors.subList(firstRoundCount, n) + matches.map { Competitor.WinnerOf(it) }).shuffled(random)
 
         for (i in 0 until (rounds - 1)) {
+            coroutineContext.ensureActive()
+
             val roundMatches = nextCompetitors.windowed(size = 2, step = 2) { (a, b) -> Match(a, b) }
             matches.addAll(roundMatches)
 

@@ -14,6 +14,6 @@ interface MatchGenerator {
     /**
      * Generate the matches for the given [participants].
      */
-    fun generate(participants: ImmutableList<Participant>): ImmutableList<Match>
+    suspend fun generate(participants: ImmutableList<Participant>): ImmutableList<Match>
 
 }

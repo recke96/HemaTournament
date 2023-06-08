@@ -20,7 +20,6 @@ fun main() = application {
         placement = WindowPlacement.Maximized, size = DpSize.Unspecified
     )
     val (isCloseRequested, setIsCloseRequested) = remember { mutableStateOf(false) }
-
     Window(
         title = "Tournament Planner",
         state = windowState,
