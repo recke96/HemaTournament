@@ -74,12 +74,14 @@ fun App() {
                     participants = participants,
                     onParticipantAdd = { setParticipants(participants.add(0, it)) },
                     onParticipantRemove = { setParticipants(participants.remove(it)) },
-                    modifier = Modifier.padding(PaddingValues(
-                        start = 2.dp,
-                        top = padding.calculateTopPadding(),
-                        end = 2.dp,
-                        bottom = padding.calculateBottomPadding()
-                    )),
+                    modifier = Modifier.padding(
+                        PaddingValues(
+                            start = 2.dp,
+                            top = padding.calculateTopPadding(),
+                            end = 2.dp,
+                            bottom = padding.calculateBottomPadding()
+                        )
+                    ),
                 )
             },
             expanded = {
@@ -91,12 +93,7 @@ fun App() {
                             icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
                         )
                     }
-                    Settings(
-                        generator = generator,
-                        onGeneratorChanged = { setGenerator(it) },
-                        participants = participants,
-                        onParticipantAdd = { setParticipants(participants.add(0, it)) },
-                        onParticipantRemove = { setParticipants(participants.remove(it)) },
+                    Box(
                         modifier = Modifier.padding(
                             PaddingValues(
                                 start = 10.dp,
@@ -104,8 +101,24 @@ fun App() {
                                 end = 10.dp,
                                 bottom = padding.calculateBottomPadding()
                             )
-                        ),
-                    )
+                        )
+                    ) {
+                        Row {
+                            Settings(
+                                generator = generator,
+                                onGeneratorChanged = { setGenerator(it) },
+                                participants = participants,
+                                onParticipantAdd = { setParticipants(participants.add(0, it)) },
+                                onParticipantRemove = { setParticipants(participants.remove(it)) },
+                                modifier = Modifier.fillMaxWidth(0.5f).padding(end = 5.dp),
+                            )
+                            Matches(
+                                generator = generator,
+                                participants = participants,
+                                modifier = Modifier.fillMaxWidth().padding(start = 5.dp),
+                            )
+                        }
+                    }
                 }
             }
         )

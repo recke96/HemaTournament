@@ -35,7 +35,7 @@ fun Settings(
     onParticipantAdd: (Participant) -> Unit,
     onParticipantRemove: (Participant) -> Unit,
     modifier: Modifier = Modifier
-): Unit = Surface(modifier = modifier.fillMaxSize()) {
+): Unit = Surface(modifier = modifier) {
     val generators =
         remember { persistentListOf(SingleEliminationTournamentMatchGenerator(), RoundRobinTournamentMatchGenerator()) }
 
