@@ -6,33 +6,8 @@ import kotlinx.collections.immutable.toPersistentList
 
 /**
  * A [Match] that should be played as part of a tournament.
- *
- * This does not imply home / away positions of [Competitors][Competitor] but is an unordered pair.
- * This means `([a], [b]) == ([b], [a])`.
  */
-data class Match(val rank: Ordinal, val a: Competitor, val b: Competitor) {
-
-    /**
-     * A [Match] is equal if the [Competitors][Competitor] are the same,
-     * so ([a], [b]) == ([b], [a]).
-     */
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        if (other is Match) {
-            return (a == other.a && b == other.b) || (a == other.b && b == other.a)
-        }
-
-        return false
-    }
-
-    /**
-     * A [hashCode]-implementation that fulfills the contract ([a], [b]) == ([b], [a]).
-     */
-    override fun hashCode(): Int = 31 + (a.hashCode() * b.hashCode())
-}
+data class Match(val rank: Ordinal, val a: Competitor, val b: Competitor)
 
 /**
  * Replace all matching occurrences of [Competitor.WinnerOf] and [Competitor.LoserOf] according to the given [result].
