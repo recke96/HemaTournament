@@ -1,8 +1,7 @@
-package info.marozzo.tournament.desktop
+package info.marozzo.tournament.desktop.components
 
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -22,7 +21,7 @@ import info.marozzo.tournament.core.Participant
 import info.marozzo.tournament.core.matchgenerators.MatchGenerator
 import info.marozzo.tournament.core.matchgenerators.RoundRobinTournamentMatchGenerator
 import info.marozzo.tournament.core.matchgenerators.SingleEliminationTournamentMatchGenerator
-import info.marozzo.tournament.desktop.components.Select
+import info.marozzo.tournament.desktop.components.util.Select
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -35,7 +34,7 @@ fun Settings(
     onParticipantAdd: (Participant) -> Unit,
     onParticipantRemove: (Participant) -> Unit,
     modifier: Modifier = Modifier
-): Unit = Surface(modifier = modifier.fillMaxSize()) {
+): Unit = Surface(modifier = modifier) {
     val generators =
         remember { persistentListOf(SingleEliminationTournamentMatchGenerator(), RoundRobinTournamentMatchGenerator()) }
 
@@ -53,8 +52,7 @@ fun Settings(
         }
     }
 
-    Column(modifier = modifier.fillMaxSize()) {
-        Text("Settings", style = MaterialTheme.typography.h4, modifier = Modifier.fillMaxWidth())
+    Column {
         Select(value = generator, onValueChanged = { onGeneratorChanged(it) }, options = generators, renderValue = {
             when (it) {
                 is SingleEliminationTournamentMatchGenerator -> Text("Single Elimination")

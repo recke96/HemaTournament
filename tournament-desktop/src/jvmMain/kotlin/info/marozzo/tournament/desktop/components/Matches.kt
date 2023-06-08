@@ -1,7 +1,7 @@
-package info.marozzo.tournament.desktop
+package info.marozzo.tournament.desktop.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -24,7 +24,7 @@ fun Matches(
     generator: MatchGenerator,
     participants: ImmutableList<Participant>,
     modifier: Modifier = Modifier,
-) = Surface(modifier = modifier.fillMaxSize()) {
+) = Surface(modifier = modifier) {
     val (isLoading, setIsLoading) = remember { mutableStateOf(false) }
     val (matches, setMatches) = remember { mutableStateOf<ImmutableList<Match>>(persistentListOf()) }
 
@@ -40,9 +40,8 @@ fun Matches(
         setIsLoading(false)
     }
 
-    Column(modifier = modifier.fillMaxSize()) {
-        Text("Matches", style = MaterialTheme.typography.h4, modifier = Modifier.fillMaxWidth())
-        if (isLoading) {
+    Column {
+        AnimatedVisibility(visible = isLoading) {
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
         }
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
