@@ -1,5 +1,6 @@
 package info.marozzo.tournament.desktop.components
 
+import androidx.compose.animation.*
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -67,21 +68,40 @@ fun App() {
     ) { padding ->
         Responsive(
             compact = {
-                Settings(
-                    generator = generator,
-                    onGeneratorChanged = { setGenerator(it) },
-                    participants = participants,
-                    onParticipantAdd = { setParticipants(participants.add(0, it)) },
-                    onParticipantRemove = { setParticipants(participants.remove(it)) },
+                val (showSettings, setShowSettings) = remember { mutableStateOf(true) }
+                val (showMatches, setShowMatches) = remember { mutableStateOf(false) }
+
+                Column(
                     modifier = Modifier.padding(
-                        PaddingValues(
-                            start = 2.dp,
-                            top = padding.calculateTopPadding(),
-                            end = 2.dp,
-                            bottom = padding.calculateBottomPadding()
-                        )
-                    ),
-                )
+                        start = 5.dp,
+                        top = padding.calculateTopPadding(),
+                        end = 5.dp,
+                        bottom = padding.calculateBottomPadding()
+                    )
+                ) {
+                    ListItem(modifier = Modifier.clickable(onClickLabel = if (showSettings) "Close settings" else "Open settings") { setShowSettings(!showSettings) }) {
+                        Text("Settings", style = MaterialTheme.typography.h4)
+                        AnimatedVisibility(visible = showSettings, enter = slideInVertically(), exit = slideOutVertically()) {
+                            Settings(
+                                generator = generator,
+                                onGeneratorChanged = { setGenerator(it) },
+                                participants = participants,
+                                onParticipantAdd = { setParticipants(participants.add(0, it)) },
+                                onParticipantRemove = { setParticipants(participants.remove(it)) },
+                            )
+                        }
+                    }
+                    Divider()
+                    ListItem(modifier = Modifier.clickable(onClickLabel = if (showMatches) "Close matches" else "Open matches") { setShowMatches(!showMatches) }) {
+                        Text("Matches", style = MaterialTheme.typography.h4)
+                        AnimatedVisibility(visible = showMatches) {
+                            Matches(
+                                generator = generator,
+                                participants = participants,
+                            )
+                        }
+                    }
+                }
             },
             expanded = {
                 Row {
