@@ -49,7 +49,7 @@ class SingleEliminationTournamentMatchGeneratorTests {
         val participants = persistentListOf(p1, p2)
         val expected = Round(
             Ordinal.first,
-            persistentListOf(Match(Ordinal.first, Competitor.Fixed(p1), Competitor.Fixed(p2)))
+            persistentListOf(Match(Ordinal.first, Competitor.Fixed(p2), Competitor.Fixed(p1)))
         )
         val sut: MatchGenerator = SingleEliminationTournamentMatchGenerator(random)
 
@@ -92,8 +92,8 @@ class SingleEliminationTournamentMatchGeneratorTests {
         val p3 = Participant("3")
         val p4 = Participant("4")
         val participants = persistentListOf(p1, p2, p3, p4)
-        val m1 = Match(Ordinal.first, Competitor.Fixed(p2), Competitor.Fixed(p3))
-        val m2 = Match(Ordinal.first.next(), Competitor.Fixed(p1), Competitor.Fixed(p4))
+        val m1 = Match(Ordinal.first, Competitor.Fixed(p3), Competitor.Fixed(p2))
+        val m2 = Match(Ordinal.first.next(), Competitor.Fixed(p4), Competitor.Fixed(p1))
         val r1 = Round(Ordinal.first, persistentListOf(m1, m2))
         val m3 = Match(Ordinal.first,  Competitor.WinnerOf(m1), Competitor.WinnerOf(m2))
         val r2 = Round(Ordinal.first.next(), persistentListOf(m3))
