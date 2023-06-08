@@ -65,15 +65,15 @@ class RoundRobinTournamentMatchGeneratorTests {
         val expected = persistentListOf(
             Round(
                 Ordinal.first,
-                persistentListOf(Match(Ordinal.first, Competitor.Fixed(p2), Competitor.Fixed(p3)))
+                persistentListOf(Match(Ordinal.first, Competitor.Fixed(p1), Competitor.Fixed(p3)))
             ),
             Round(
                 Ordinal.first.next(),
-                persistentListOf(Match(Ordinal.first, Competitor.Fixed(p1), Competitor.Fixed(p2)))
+                persistentListOf(Match(Ordinal.first, Competitor.Fixed(p3), Competitor.Fixed(p2)))
             ),
             Round(
                 Ordinal.first.next().next(),
-                persistentListOf(Match(Ordinal.first, Competitor.Fixed(p3), Competitor.Fixed(p1)))
+                persistentListOf(Match(Ordinal.first, Competitor.Fixed(p2), Competitor.Fixed(p1)))
             )
         )
         val sut: MatchGenerator = RoundRobinTournamentMatchGenerator()
@@ -111,10 +111,10 @@ class RoundRobinTournamentMatchGeneratorTests {
             ),
 
             Round(
-                Ordinal.first,
+                Ordinal.first.next().next(),
                 persistentListOf(
                     Match(Ordinal.first, Competitor.Fixed(p1), Competitor.Fixed(p2)),
-                    Match(Ordinal.first, Competitor.Fixed(p3), Competitor.Fixed(p4))
+                    Match(Ordinal.first.next(), Competitor.Fixed(p3), Competitor.Fixed(p4))
                 )
             ),
         )
