@@ -21,7 +21,6 @@ import info.marozzo.tournament.desktop.components.util.LocalWidthClass
 import info.marozzo.tournament.desktop.components.util.Responsive
 import info.marozzo.tournament.desktop.components.util.WidthClass
 import kotlinx.collections.immutable.persistentListOf
-import kotlin.math.exp
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
