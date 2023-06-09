@@ -44,7 +44,7 @@ class RoundRobinTournamentMatchGenerator : MatchGenerator {
 
             val splitPoint = circle.size / 2
             val aCompetitors = circle.subList(0, splitPoint)
-            val bCompetitors = circle.subList(splitPoint, circle.size).asReversed()
+            val bCompetitors = circle.subList(splitPoint, if (needBye) circle.size else circle.size - 1).asReversed()
 
             matches = matches.addAll(
                 matchRanks
