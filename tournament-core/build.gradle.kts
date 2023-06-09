@@ -8,14 +8,12 @@ plugins {
 group = "info.marozzo.tournament"
 version = "1.0-SNAPSHOT"
 
-val dokkaVersion = parent?.extra?.get("kotlin.dokka.version")
-
 repositories {
 	mavenCentral()
 }
 
 dependencies {
-	dokkaPlugin("org.jetbrains.dokka:mathjax-plugin:$dokkaVersion")
+	dokkaPlugin("org.jetbrains.dokka:mathjax-plugin:1.8.10")
 }
 
 kotlin {
