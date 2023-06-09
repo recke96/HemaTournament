@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-	dokkaPlugin("org.jetbrains.dokka:mathjax-plugin:1.8.10")
+	dokkaPlugin("org.jetbrains.dokka:mathjax-plugin:1.8.20")
 }
 
 kotlin {
