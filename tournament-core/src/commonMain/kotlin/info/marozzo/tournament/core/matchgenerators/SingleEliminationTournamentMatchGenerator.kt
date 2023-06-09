@@ -1,11 +1,11 @@
 package info.marozzo.tournament.core.matchgenerators
 
-import info.marozzo.tournament.core.Competitor
-import info.marozzo.tournament.core.Match
-import info.marozzo.tournament.core.Participant
+import info.marozzo.tournament.core.*
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.ensureActive
+import kotlin.coroutines.coroutineContext
 import kotlin.math.ceil
 import kotlin.math.log2
 import kotlin.random.Random
@@ -17,7 +17,7 @@ import kotlin.random.Random
  * Does support a number of [Participants][Participant] that is *unequal* to a power of two.
  */
 class SingleEliminationTournamentMatchGenerator(private val random: Random = Random) : MatchGenerator {
-    override fun generate(participants: ImmutableList<Participant>): ImmutableList<Match> {
+    override suspend fun generate(participants: ImmutableList<Participant>): ImmutableList<Round> {
         val competitors = participants
             .toSet()
             .map { Competitor.Fixed(it) }
@@ -28,26 +28,50 @@ class SingleEliminationTournamentMatchGenerator(private val random: Random = Ran
         if (n < 2) {
             return persistentListOf()
         } else if (n == 2) {
-            return persistentListOf(Match(competitors.first(), competitors.last()))
+            return persistentListOf(
+                Round(
+                    Ordinal.first,
+                    persistentListOf(Match(Ordinal.first, competitors.first(), competitors.last()))
+                )
+            )
         }
 
-        val rounds = ceil(log2(n.toDouble())).toInt()
-        val p = 1 shl rounds
+        val roundCount = ceil(log2(n.toDouble())).toInt()
+        val p = 1 shl roundCount
         val firstRoundCount = 2 * n - p
+
+        var roundRank = Ordinal.first
+        var rounds = persistentListOf<Round>()
 
         val firstRoundCompetitors = competitors.subList(0, firstRoundCount)
 
-        val matches = firstRoundCompetitors.windowed(size = 2, step = 2) { (a, b) -> Match(a, b) }.toMutableList()
+        val matches = firstRoundCompetitors
+            .asSequence()
+            .windowed(size = 2, step = 2)
+            .zip(Ordinal.sequence) { (a, b), rank -> Match(rank, a, b) }
+            .toImmutableList()
+
+        rounds = rounds.add(Round(roundRank, matches))
+        roundRank = roundRank.next()
+
         var nextCompetitors =
             (competitors.subList(firstRoundCount, n) + matches.map { Competitor.WinnerOf(it) }).shuffled(random)
 
-        for (i in 0 until (rounds - 1)) {
-            val roundMatches = nextCompetitors.windowed(size = 2, step = 2) { (a, b) -> Match(a, b) }
-            matches.addAll(roundMatches)
+        for (i in 0 until (roundCount - 1)) {
+            coroutineContext.ensureActive()
+
+            val roundMatches = nextCompetitors
+                .asSequence()
+                .windowed(size = 2, step = 2)
+                .zip(Ordinal.sequence) { (a, b), rank -> Match(rank, a, b) }
+                .toImmutableList()
+
+            rounds = rounds.add(Round(roundRank, roundMatches))
+            roundRank = roundRank.next()
 
             nextCompetitors = roundMatches.map { Competitor.WinnerOf(it) }.shuffled(random)
         }
 
-        return matches.toImmutableList()
+        return rounds
     }
 }
