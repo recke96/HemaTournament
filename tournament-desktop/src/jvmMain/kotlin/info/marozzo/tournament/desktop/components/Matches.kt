@@ -12,6 +12,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import info.marozzo.tournament.core.Competitor
 import info.marozzo.tournament.core.Participant
 import info.marozzo.tournament.core.Round
@@ -25,7 +26,7 @@ fun Matches(
     generator: MatchGenerator,
     participants: ImmutableList<Participant>,
     modifier: Modifier = Modifier,
-) = Surface(modifier = modifier, color = MaterialTheme.colors.primarySurface) {
+) {
     val (isLoading, setIsLoading) = remember { mutableStateOf(false) }
     val (rounds, setRounds) = remember { mutableStateOf<ImmutableList<Round>>(persistentListOf()) }
 
@@ -41,7 +42,7 @@ fun Matches(
         setIsLoading(false)
     }
 
-    Column {
+    Column(modifier = modifier) {
         AnimatedVisibility(visible = isLoading) {
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
         }

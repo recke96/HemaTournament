@@ -154,31 +154,36 @@ private fun ExpandedAppContent(
             modifier = Modifier.padding(
                 PaddingValues(
                     start = 10.dp,
-                    top = padding.calculateTopPadding(),
+                    top = padding.calculateTopPadding() + 10.dp,
                     end = 10.dp,
-                    bottom = padding.calculateBottomPadding()
+                    bottom = padding.calculateBottomPadding() + 10.dp
                 )
             )
         ) {
             Row {
-                Column {
-                    Text("Settings", style = MaterialTheme.typography.h4)
-                    Settings(
-                        generator = generator,
-                        onGeneratorChanged = { setGenerator(it) },
-                        participants = participants,
-                        onParticipantAdd = { setParticipants(participants.add(0, it)) },
-                        onParticipantRemove = { setParticipants(participants.remove(it)) },
-                        modifier = Modifier.fillMaxWidth(0.5f).padding(end = 5.dp),
-                    )
+                Surface(shape = MaterialTheme.shapes.large, elevation = 8.dp) {
+                    Column(modifier = Modifier.padding(5.dp).fillMaxHeight().fillMaxWidth(0.5f)) {
+                        Text("Settings", style = MaterialTheme.typography.h4)
+                        Spacer(modifier = Modifier.heightIn(10.dp, 25.dp))
+                        Settings(
+                            generator = generator,
+                            onGeneratorChanged = { setGenerator(it) },
+                            participants = participants,
+                            onParticipantAdd = { setParticipants(participants.add(0, it)) },
+                            onParticipantRemove = { setParticipants(participants.remove(it)) }
+                        )
+                    }
                 }
-                Column {
-                    Text("Matches", style = MaterialTheme.typography.h4)
-                    Matches(
-                        generator = generator,
-                        participants = participants,
-                        modifier = Modifier.fillMaxWidth().padding(start = 5.dp),
-                    )
+                Spacer(modifier = Modifier.widthIn(10.dp, 25.dp))
+                Surface(shape = MaterialTheme.shapes.large, elevation = 8.dp) {
+                    Column(modifier = Modifier.padding(5.dp).fillMaxHeight()) {
+                        Text("Matches", style = MaterialTheme.typography.h4)
+                        Spacer(modifier = Modifier.heightIn(10.dp, 25.dp))
+                        Matches(
+                            generator = generator,
+                            participants = participants,
+                        )
+                    }
                 }
             }
         }
