@@ -1,18 +1,18 @@
 package info.marozzo.tournament.desktop.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import info.marozzo.tournament.core.Participant
@@ -21,6 +21,7 @@ import info.marozzo.tournament.core.matchgenerators.RoundRobinTournamentMatchGen
 import info.marozzo.tournament.desktop.components.util.LocalWidthClass
 import info.marozzo.tournament.desktop.components.util.Responsive
 import info.marozzo.tournament.desktop.components.util.WidthClass
+import info.marozzo.tournament.desktop.components.util.matchRowSize
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -83,50 +84,61 @@ private fun CompactAppContent(
     setParticipants: (PersistentList<Participant>) -> Unit,
     padding: PaddingValues,
 ) {
-    val (showSettings, setShowSettings) = remember { mutableStateOf(true) }
-    val (showMatches, setShowMatches) = remember { mutableStateOf(false) }
-
     Column(
         modifier = Modifier.padding(
-            start = 5.dp,
+            start = 0.dp,
             top = padding.calculateTopPadding(),
-            end = 5.dp,
+            end = 0.dp,
             bottom = padding.calculateBottomPadding()
         ).fillMaxHeight()
     ) {
-        ListItem(modifier = Modifier.clickable(onClickLabel = if (showSettings) "Close settings" else "Open settings") {
-            setShowSettings(
-                !showSettings
-            )
-        }) {
+        ListItem {
             Column {
-                Text("Settings", style = MaterialTheme.typography.h4)
-                AnimatedVisibility(
-                    visible = showSettings
-                ) {
-                    Settings(
-                        generator = generator,
-                        onGeneratorChanged = { setGenerator(it) },
-                        participants = participants,
-                        onParticipantAdd = { setParticipants(participants.add(0, it)) },
-                        onParticipantRemove = { setParticipants(participants.remove(it)) },
+                val (show, setShow) = remember { mutableStateOf(true) }
+                val animatedRotation by animateFloatAsState(targetValue = if (show) 180f else 0f)
+                TextButton(onClick = { setShow(!show) }, modifier = Modifier.fillMaxWidth()) {
+                    Text("Settings", style = MaterialTheme.typography.h4)
+                    Icon(
+                        Icons.Default.ArrowDropDown,
+                        contentDescription = null,
+                        modifier = Modifier.matchRowSize().rotate(animatedRotation)
                     )
+                }
+                AnimatedVisibility(
+                    visible = show
+                ) {
+                    Surface(shape = MaterialTheme.shapes.large, elevation = 4.dp) {
+                        Settings(
+                            generator = generator,
+                            onGeneratorChanged = { setGenerator(it) },
+                            participants = participants,
+                            onParticipantAdd = { setParticipants(participants.add(0, it)) },
+                            onParticipantRemove = { setParticipants(participants.remove(it)) },
+                        )
+                    }
                 }
             }
         }
         Divider()
-        ListItem(modifier = Modifier.clickable(onClickLabel = if (showMatches) "Close matches" else "Open matches") {
-            setShowMatches(
-                !showMatches
-            )
-        }) {
+        ListItem {
             Column {
-                Text("Matches", style = MaterialTheme.typography.h4)
-                AnimatedVisibility(visible = showMatches) {
-                    Matches(
-                        generator = generator,
-                        participants = participants,
+                val (show, setShow) = remember { mutableStateOf(true) }
+                val animatedRotation by animateFloatAsState(targetValue = if (show) 180f else 0f)
+                TextButton(onClick = { setShow(!show) }, modifier = Modifier.fillMaxWidth()) {
+                    Text("Matches", style = MaterialTheme.typography.h4)
+                    Icon(
+                        Icons.Default.ArrowDropDown,
+                        contentDescription = null,
+                        modifier = Modifier.matchRowSize().rotate(animatedRotation)
                     )
+                }
+                AnimatedVisibility(visible = show) {
+                    Surface(shape = MaterialTheme.shapes.large, elevation = 4.dp) {
+                        Matches(
+                            generator = generator,
+                            participants = participants,
+                        )
+                    }
                 }
             }
         }
