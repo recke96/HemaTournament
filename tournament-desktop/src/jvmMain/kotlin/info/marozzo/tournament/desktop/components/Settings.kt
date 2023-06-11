@@ -34,7 +34,7 @@ fun Settings(
     onParticipantAdd: (Participant) -> Unit,
     onParticipantRemove: (Participant) -> Unit,
     modifier: Modifier = Modifier
-): Unit = Surface(modifier = modifier) {
+) {
     val generators =
         remember { persistentListOf(SingleEliminationTournamentMatchGenerator(), RoundRobinTournamentMatchGenerator()) }
 
@@ -52,7 +52,7 @@ fun Settings(
         }
     }
 
-    Column {
+    Column(modifier = modifier) {
         Select(value = generator, onValueChanged = { onGeneratorChanged(it) }, options = generators, renderValue = {
             when (it) {
                 is SingleEliminationTournamentMatchGenerator -> Text("Single Elimination")
