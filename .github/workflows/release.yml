@@ -26,7 +26,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: package-windows
-          path: ${{ github.workspace }}/tournament-desktop\build\compose\binaries\main-release\msi\*.msi
+          path: ${{ github.workspace }}/tournament-desktop/build/compose/binaries/main-release/msi/*.msi
   linux:
     runs-on: ubuntu-latest
     steps:
@@ -46,7 +46,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: package-debian
-          path: ${{ github.workspace }}/tournament-desktop\build\compose\binaries\main-release\deb\*.deb
+          path: ${{ github.workspace }}/tournament-desktop/build/compose/binaries/main-release/deb/*.deb
   create-release:
     needs: [windows, linux]
     runs-on: ubuntu-latest
