@@ -48,6 +48,7 @@ jobs:
           name: package-debian
           path: ${{ github.workspace }}/tournament-desktop\build\compose\binaries\main-release\deb\*.deb
   create-release:
+    needs: [windows, linux]
     runs-on: ubuntu-latest
     steps:
       - name: Download Windows
