@@ -18,7 +18,7 @@ jobs:
           distribution: 'temurin'
       - name: Validate Gradle-Wrapper
         uses: gradle/wrapper-validation-action@v1.0.6
-      - name: Build & Test
+      - name: Build & Package
         uses: gradle/gradle-build-action@v2.4.2
         with:
           arguments: packageReleaseMsi
@@ -26,4 +26,41 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: package-windows
-          path: ${{ github.workspace }}/tournament-desktop/build/compose/
+          path: ${{ github.workspace }}/tournament-desktop\build\compose\binaries\main-release\msi\*.msi
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Validate Gradle-Wrapper
+        uses: gradle/wrapper-validation-action@v1.0.6
+      - name: Build & Package
+        uses: gradle/gradle-build-action@v2.4.2
+        with:
+          arguments: packageReleaseDeb
+      - name: Upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: package-debian
+          path: ${{ github.workspace }}/tournament-desktop\build\compose\binaries\main-release\deb\*.deb
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Windows
+        uses: actions/download-artifact@v3
+        with:
+          name: package-windows
+      - name: Download Debian
+        uses: actions/download-artifact@v3
+        with:
+          name: package-debian
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            *.msi
+            *.deb
