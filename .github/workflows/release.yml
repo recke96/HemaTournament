@@ -50,6 +50,8 @@ jobs:
   create-release:
     needs: [windows, linux]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Download Windows
         uses: actions/download-artifact@v3
