@@ -33,7 +33,7 @@ kotlin {
 			dependencies {
 				implementation(kotlin("test-common"))
 				implementation(kotlin("test-annotations-common"))
-				implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
+				implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.2")
 				implementation("ch.tutteli.atrium:atrium-fluent:1.0.0")
 			}
 		}
