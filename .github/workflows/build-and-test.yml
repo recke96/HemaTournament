@@ -2,6 +2,9 @@ name: Build and Test
 
 on: [ pull_request ]
 
+permissions:
+  contents: read|write
+
 jobs:
   build:
     runs-on: ubuntu-latest
