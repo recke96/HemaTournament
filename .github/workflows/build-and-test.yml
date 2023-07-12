@@ -7,9 +7,16 @@ on:
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.txt'
+      - 'LICENCE'
+      - 'renovate.json'
+      - '**/*.gif'
 
 permissions:
   contents: write
+  security-events: write
 
 jobs:
   build:
@@ -28,5 +35,11 @@ jobs:
         uses: gradle/gradle-build-action@v2.6.0
         with:
           dependency-graph: generate-and-submit
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: java
       - name: Check
         run: ./gradlew check
+      - name: CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
