@@ -7,6 +7,12 @@ on:
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.txt'
+      - 'LICENCE'
+      - 'renovate.json'
+      - '**/*.gif'
 
 permissions:
   contents: write
@@ -30,3 +36,4 @@ jobs:
           dependency-graph: generate-and-submit
       - name: Check
         run: ./gradlew check
+      - 
