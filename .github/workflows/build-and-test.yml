@@ -39,6 +39,7 @@ jobs:
         uses: github/codeql-action/init@v2
         with:
           languages: java
+          queries: security-and-quality
       - name: Check
         run: ./gradlew check
       - name: CodeQL Analysis
