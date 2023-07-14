@@ -46,6 +46,7 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "tournament-desktop"
             packageVersion = "1.0.0"
+            licenseFile = project.rootProject.file("LICENCE")
         }
     }
 }
