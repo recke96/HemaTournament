@@ -15,25 +15,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import info.marozzo.tournament.core.Participant
-import info.marozzo.tournament.core.matchgenerators.MatchGenerator
-import info.marozzo.tournament.core.matchgenerators.RoundRobinTournamentMatchGenerator
+import info.marozzo.tournament.desktop.TournamentStore
 import info.marozzo.tournament.desktop.components.util.LocalWidthClass
 import info.marozzo.tournament.desktop.components.util.Responsive
 import info.marozzo.tournament.desktop.components.util.WidthClass
 import info.marozzo.tournament.desktop.components.util.matchRowSize
-import kotlinx.collections.immutable.PersistentList
-import kotlinx.collections.immutable.persistentListOf
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 @Preview
-fun App() {
+internal fun App(state: TournamentStore.State, accept: (TournamentStore.Intent) -> Unit) {
     val scaffoldState = rememberScaffoldState()
     val (showNav, setShowNav) = remember { mutableStateOf(false) }
-
-    val (generator, setGenerator) = remember { mutableStateOf<MatchGenerator>(RoundRobinTournamentMatchGenerator()) }
-    val (participants, setParticipants) = remember { mutableStateOf(persistentListOf<Participant>()) }
 
     LaunchedEffect(showNav) {
         if (showNav) {
@@ -43,53 +36,38 @@ fun App() {
         }
     }
 
-    Scaffold(
-        scaffoldState = scaffoldState,
+    Scaffold(scaffoldState = scaffoldState,
         topBar = { AppBar(onShowNavigationChange = { setShowNav(true) }) },
         drawerContent = if (LocalWidthClass.current < WidthClass.Expanded) {
             {
-                ListItem(
-                    modifier = Modifier.clickable(
-                        role = Role.Button,
-                        onClickLabel = "Navigate Home"
-                    ) { println("HOME") },
-                    icon = { Icon(Icons.Default.Home, contentDescription = null) }) {
+                ListItem(modifier = Modifier.clickable(
+                    role = Role.Button, onClickLabel = "Navigate Home"
+                ) { println("HOME") }, icon = { Icon(Icons.Default.Home, contentDescription = null) }) {
                     Text("Home")
                 }
                 Divider()
-                ListItem(
-                    modifier = Modifier.clickable(
-                        role = Role.Button,
-                        onClickLabel = "Close Navigation"
-                    ) { setShowNav(false) },
-                    icon = { Icon(Icons.Default.ArrowBack, contentDescription = null) }) {
+                ListItem(modifier = Modifier.clickable(
+                    role = Role.Button, onClickLabel = "Close Navigation"
+                ) { setShowNav(false) }, icon = { Icon(Icons.Default.ArrowBack, contentDescription = null) }) {
                     Text("Close")
                 }
             }
-        } else null
-    ) { padding ->
-        Responsive(
-            compact = { CompactAppContent(generator, setGenerator, participants, setParticipants, padding) },
-            expanded = { ExpandedAppContent(generator, setGenerator, participants, setParticipants, padding) }
-        )
+        } else null) { padding ->
+        Responsive(compact = { CompactAppContent(state, accept, padding) },
+            expanded = { ExpandedAppContent(state, accept, padding) })
     }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun CompactAppContent(
-    generator: MatchGenerator,
-    setGenerator: (MatchGenerator) -> Unit,
-    participants: PersistentList<Participant>,
-    setParticipants: (PersistentList<Participant>) -> Unit,
+    state: TournamentStore.State,
+    accept: (TournamentStore.Intent) -> Unit,
     padding: PaddingValues,
 ) {
     Column(
         modifier = Modifier.padding(
-            start = 0.dp,
-            top = padding.calculateTopPadding(),
-            end = 0.dp,
-            bottom = padding.calculateBottomPadding()
+            start = 0.dp, top = padding.calculateTopPadding(), end = 0.dp, bottom = padding.calculateBottomPadding()
         ).fillMaxHeight()
     ) {
         ListItem {
@@ -108,13 +86,7 @@ private fun CompactAppContent(
                     visible = show
                 ) {
                     Surface(shape = MaterialTheme.shapes.large, elevation = 4.dp) {
-                        Settings(
-                            generator = generator,
-                            onGeneratorChanged = { setGenerator(it) },
-                            participants = participants,
-                            onParticipantAdd = { setParticipants(participants.add(0, it)) },
-                            onParticipantRemove = { setParticipants(participants.remove(it)) },
-                        )
+                        Settings(state.matchGenerator, state.participants, accept)
                     }
                 }
             }
@@ -134,10 +106,7 @@ private fun CompactAppContent(
                 }
                 AnimatedVisibility(visible = show) {
                     Surface(shape = MaterialTheme.shapes.large, elevation = 4.dp) {
-                        Matches(
-                            generator = generator,
-                            participants = participants,
-                        )
+                        Matches(state.rounds, state.results, accept)
                     }
                 }
             }
@@ -148,10 +117,8 @@ private fun CompactAppContent(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun ExpandedAppContent(
-    generator: MatchGenerator,
-    setGenerator: (MatchGenerator) -> Unit,
-    participants: PersistentList<Participant>,
-    setParticipants: (PersistentList<Participant>) -> Unit,
+    state: TournamentStore.State,
+    accept: (TournamentStore.Intent) -> Unit,
     padding: PaddingValues,
 ) {
     Row {
@@ -177,13 +144,7 @@ private fun ExpandedAppContent(
                     Column(modifier = Modifier.padding(5.dp).fillMaxHeight().fillMaxWidth(0.5f)) {
                         Text("Settings", style = MaterialTheme.typography.h4)
                         Spacer(modifier = Modifier.heightIn(10.dp, 25.dp))
-                        Settings(
-                            generator = generator,
-                            onGeneratorChanged = { setGenerator(it) },
-                            participants = participants,
-                            onParticipantAdd = { setParticipants(participants.add(0, it)) },
-                            onParticipantRemove = { setParticipants(participants.remove(it)) }
-                        )
+                        Settings(state.matchGenerator, state.participants, accept)
                     }
                 }
                 Spacer(modifier = Modifier.widthIn(10.dp, 25.dp))
@@ -191,10 +152,7 @@ private fun ExpandedAppContent(
                     Column(modifier = Modifier.padding(5.dp).fillMaxHeight()) {
                         Text("Matches", style = MaterialTheme.typography.h4)
                         Spacer(modifier = Modifier.heightIn(10.dp, 25.dp))
-                        Matches(
-                            generator = generator,
-                            participants = participants,
-                        )
+                        Matches(state.rounds, state.results, accept)
                     }
                 }
             }

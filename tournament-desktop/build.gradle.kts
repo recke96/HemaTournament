@@ -1,5 +1,3 @@
-@file:Suppress("UNUSED_VARIABLE")
-
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
@@ -28,7 +26,14 @@ kotlin {
 
                 implementation(project(":tournament-core"))
 
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.2")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.7.2")
+
                 implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
+
+                implementation("com.arkivanov.mvikotlin:mvikotlin:3.2.1")
+                implementation("com.arkivanov.mvikotlin:mvikotlin-main:3.2.1")
+                implementation("com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines:3.2.1")
             }
         }
         val jvmTest by getting
@@ -42,6 +47,7 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "tournament-desktop"
             packageVersion = "1.0.0"
+            licenseFile = project.rootProject.file("LICENCE")
         }
     }
 }
