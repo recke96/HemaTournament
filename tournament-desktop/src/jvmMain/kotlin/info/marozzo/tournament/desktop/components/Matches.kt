@@ -1,7 +1,6 @@
 package info.marozzo.tournament.desktop.components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,36 +13,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import info.marozzo.tournament.core.*
-import info.marozzo.tournament.core.matchgenerators.MatchGenerator
-import info.marozzo.tournament.core.matchgenerators.RoundRobinTournamentMatchGenerator
+import info.marozzo.tournament.desktop.TournamentStore
 import info.marozzo.tournament.desktop.components.util.Responsive
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.delay
+import kotlinx.collections.immutable.ImmutableMap
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
 @Composable
-fun Matches(
-    generator: MatchGenerator,
-    participants: ImmutableList<Participant>,
+internal fun Matches(
+    rounds: ImmutableList<Round>,
+    results: ImmutableMap<Match, MatchResult<*>?>,
+    accept: (TournamentStore.Intent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val (isLoading, setIsLoading) = remember { mutableStateOf(false) }
     val (matchToBeScored, setMatchToBeScored) = remember { mutableStateOf<Match?>(null) }
-    val (rounds, setRounds) = remember { mutableStateOf<ImmutableList<Round>>(persistentListOf()) }
-    val results = remember { mutableStateMapOf<Match, MatchResult<*>>() }
 
     fun Competitor.text(rounds: List<Round>): String = when (this) {
         is Competitor.Fixed -> this.participant.name
         is Competitor.WinnerOf -> "Winner of Round ${rounds.find { it.matches.contains(match) }?.rank}, Match ${match.rank}"
         is Competitor.LoserOf -> "Loser of Round ${rounds.find { it.matches.contains(match) }?.rank}, Match ${match.rank}"
-    }
-
-    LaunchedEffect(generator, participants) {
-        setIsLoading(true)
-        delay(participants.size * 100L)
-        setRounds(generator.generate(participants))
-        setIsLoading(false)
     }
 
     Column(modifier = modifier) {
@@ -96,12 +85,7 @@ fun Matches(
             Button(
                 enabled = pointsA != null && pointsB != null && doubles != null,
                 onClick = {
-                    results[matchToBeScored] = CutScoreResult(
-                        matchToBeScored,
-                        pointsByA = pointsA!!,
-                        pointsByB = pointsB!!,
-                        doubles!!
-                    )
+                    accept(TournamentStore.Intent.EnterResult(CutScoreResult(matchToBeScored, pointsA!!, pointsB!!, doubles!!)))
                     setMatchToBeScored(null)
                 }) {
                 Text("OK")
@@ -150,14 +134,4 @@ fun Matches(
             }
         )
     }
-}
-
-
-@Preview
-@Composable
-private fun MatchesPreview() {
-    val gen = remember { RoundRobinTournamentMatchGenerator() }
-    val parts = remember { persistentListOf(Participant("a"), Participant("b"), Participant("c"), Participant("d")) }
-
-    Matches(gen, parts)
 }

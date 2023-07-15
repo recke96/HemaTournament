@@ -4,8 +4,9 @@ import com.arkivanov.mvikotlin.core.store.Reducer
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
-import info.marozzo.tournament.core.Match
+import info.marozzo.tournament.core.MatchResult
 import info.marozzo.tournament.core.Participant
+import info.marozzo.tournament.core.Round
 import info.marozzo.tournament.core.matchgenerators.MatchGenerator
 import info.marozzo.tournament.core.matchgenerators.RoundRobinTournamentMatchGenerator
 import kotlinx.collections.immutable.*
@@ -17,7 +18,7 @@ internal class TournamentStoreFactory(private val storeFactory: StoreFactory) {
         object : TournamentStore, Store<TournamentStore.Intent, TournamentStore.State, Nothing> by storeFactory.create(
             name = "TournamentStore",
             initialState = TournamentStore.State(
-                persistentListOf(), RoundRobinTournamentMatchGenerator(), persistentMapOf()
+                persistentListOf(), RoundRobinTournamentMatchGenerator(), persistentListOf(), persistentMapOf()
             ),
             executorFactory = ::TournamentExecutor,
             reducer = TournamentReducer,
@@ -27,21 +28,21 @@ internal class TournamentStoreFactory(private val storeFactory: StoreFactory) {
         data class UpdateTournament(
             val participants: PersistentList<Participant>,
             val generator: MatchGenerator,
-            val matches: ImmutableList<Match>
+            val rounds: ImmutableList<Round>
         ) : Msg
 
-        data class EnterResult(val match: Match, val result: MatchResult) : Msg
+        data class EnterResult(val result: MatchResult<*>) : Msg
     }
 
     private object TournamentReducer : Reducer<TournamentStore.State, Msg> {
         override fun TournamentStore.State.reduce(msg: Msg): TournamentStore.State = when (msg) {
-            is Msg.UpdateTournament -> copy(
-                participants = msg.participants,
+            is Msg.UpdateTournament -> copy(participants = msg.participants,
                 matchGenerator = msg.generator,
-                matches = msg.matches.associateWith { null }.toPersistentMap()
+                rounds = msg.rounds,
+                results = msg.rounds.flatMap { it.matches }.associateWith { null }.toPersistentMap()
             )
 
-            is Msg.EnterResult -> copy(matches = matches.put(msg.match, msg.result))
+            is Msg.EnterResult -> copy(results = results.put(msg.result.match, msg.result))
         }
     }
 
@@ -52,30 +53,22 @@ internal class TournamentStoreFactory(private val storeFactory: StoreFactory) {
 
             when (intent) {
                 is TournamentStore.Intent.AddParticipant -> regenerateMatches(
-                    participants.add(Participant(intent.name)),
-                    generator
+                    participants.add(Participant(intent.name)), generator
                 )
 
                 is TournamentStore.Intent.RemoveParticipant -> regenerateMatches(
-                    participants.remove(intent.participant),
-                    generator
+                    participants.remove(intent.participant), generator
                 )
 
                 is TournamentStore.Intent.ChangeMatchGenerator -> regenerateMatches(participants, intent.generator)
-                is TournamentStore.Intent.EnterResult -> dispatch(Msg.EnterResult(intent.match, intent.result))
+                is TournamentStore.Intent.EnterResult -> dispatch(Msg.EnterResult(intent.result))
             }
         }
 
         private fun regenerateMatches(participants: PersistentList<Participant>, matchGenerator: MatchGenerator) =
             scope.launch {
-                val matches = matchGenerator.generate(participants)
-                dispatch(
-                    Msg.UpdateTournament(
-                        participants,
-                        matchGenerator,
-                        matches.flatMap { it.matches }.toImmutableList()
-                    )
-                )
+                val rounds = matchGenerator.generate(participants)
+                dispatch(Msg.UpdateTournament(participants, matchGenerator, rounds))
             }
     }
 }

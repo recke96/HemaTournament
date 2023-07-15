@@ -21,18 +21,17 @@ import info.marozzo.tournament.core.Participant
 import info.marozzo.tournament.core.matchgenerators.MatchGenerator
 import info.marozzo.tournament.core.matchgenerators.RoundRobinTournamentMatchGenerator
 import info.marozzo.tournament.core.matchgenerators.SingleEliminationTournamentMatchGenerator
+import info.marozzo.tournament.desktop.TournamentStore
 import info.marozzo.tournament.desktop.components.util.Select
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class)
 @Composable
-fun Settings(
+internal fun Settings(
     generator: MatchGenerator,
-    onGeneratorChanged: (MatchGenerator) -> Unit,
     participants: ImmutableList<Participant>,
-    onParticipantAdd: (Participant) -> Unit,
-    onParticipantRemove: (Participant) -> Unit,
+    accept: (TournamentStore.Intent) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val generators =
@@ -47,18 +46,23 @@ fun Settings(
 
     fun addParticipant() {
         if (isValid) {
-            onParticipantAdd(Participant(currentText.trim()))
+            accept(TournamentStore.Intent.AddParticipant(currentText))
             setCurrentText("")
         }
     }
 
     Column(modifier = modifier) {
-        Select(value = generator, onValueChanged = { onGeneratorChanged(it) }, options = generators, renderValue = {
-            when (it) {
-                is SingleEliminationTournamentMatchGenerator -> Text("Single Elimination")
-                is RoundRobinTournamentMatchGenerator -> Text("Round-Robin")
-            }
-        }, modifier = Modifier.fillMaxWidth()
+        Select(
+            value = generator,
+            onValueChanged = { accept(TournamentStore.Intent.ChangeMatchGenerator(it)) },
+            options = generators,
+            renderValue = {
+                when (it) {
+                    is SingleEliminationTournamentMatchGenerator -> Text("Single Elimination")
+                    is RoundRobinTournamentMatchGenerator -> Text("Round-Robin")
+                }
+            },
+            modifier = Modifier.fillMaxWidth()
         )
         TextField(
             value = currentText,
@@ -79,7 +83,7 @@ fun Settings(
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             items(participants, key = { it.name }) { participant ->
                 ListItem(trailing = {
-                    IconButton(onClick = { onParticipantRemove(participant) }) {
+                    IconButton(onClick = { accept(TournamentStore.Intent.RemoveParticipant(participant)) }) {
                         Icon(Icons.Default.Close, contentDescription = "Delete")
                     }
                 }) {
