@@ -17,7 +17,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Validate Gradle-Wrapper
-        uses: gradle/wrapper-validation-action@v1.0.6
+        uses: gradle/wrapper-validation-action@v1.1.0
       - name: Build & Package
         uses: gradle/gradle-build-action@v2.6.1
         with:
@@ -37,7 +37,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Validate Gradle-Wrapper
-        uses: gradle/wrapper-validation-action@v1.0.6
+        uses: gradle/wrapper-validation-action@v1.1.0
       - name: Build & Package
         uses: gradle/gradle-build-action@v2.6.1
         with:
