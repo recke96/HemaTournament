@@ -26,7 +26,7 @@ class SingleEliminationTournamentMatchGeneratorTest : FunSpec({
     val random = PropertyTesting.defaultSeed?.run(::Random) ?: Random
     val sut = SingleEliminationTournamentMatchGenerator(random)
 
-    context("No Matches tournaments") {
+    test("No Matches tournaments") {
         checkAll(Arb.set(Arb.participant(), 0..1).map { it.toImmutableList() }) { participants ->
             collect("number_participants", participants.size)
 
@@ -34,7 +34,7 @@ class SingleEliminationTournamentMatchGeneratorTest : FunSpec({
         }
     }
 
-    context("Tournaments") {
+    test("Tournaments") {
         checkAll(Arb.set(Arb.participant(), 2..100).map { it.toImmutableList() }) { participants ->
             val n = participants.size
             collect("number_participants", n)
