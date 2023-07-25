@@ -16,7 +16,7 @@ class RoundRobinMatchGeneratorTest : FunSpec({
 
     val sut = RoundRobinTournamentMatchGenerator()
 
-    context("No Matches tournaments") {
+    test("No Matches tournaments") {
         checkAll(Arb.set(Arb.participant(), 0..1).map { it.toImmutableList() }) { participants ->
             collect("number_participants", participants.size)
 
@@ -24,7 +24,7 @@ class RoundRobinMatchGeneratorTest : FunSpec({
         }
     }
 
-    context("Tournaments") {
+    test("Tournaments") {
         checkAll(Arb.set(Arb.participant(), 2..100).map { it.toImmutableList() }) { participants ->
             val n = participants.size
             collect("number_participants", n)
