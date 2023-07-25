@@ -27,7 +27,7 @@ kotlin {
                 implementation(project(":tournament-core"))
 
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.7.2")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.7.3")
 
                 implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
 
