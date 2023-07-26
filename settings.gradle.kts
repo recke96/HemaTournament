@@ -8,7 +8,7 @@ pluginManagement {
 	plugins {
 		kotlin("multiplatform") version "1.8.20" apply false
 		id("org.jetbrains.dokka") version "1.8.20" apply false
-		id("org.jetbrains.compose") version "1.4.1" apply false
+		id("org.jetbrains.compose") version "1.4.3" apply false
 		id("io.kotest.multiplatform") version "5.6.2" apply false
 	}
 }
