@@ -161,7 +161,7 @@ class MarkdownSummaryReporter(
         }
 
         appendLine("<details>")
-        appendLine("<summary> **$heading** </summary>")
+        appendLine("<summary><strong>$heading</strong></summary>")
         appendLine()
 
         appendLine("| Test | Duration | Message |")
