@@ -36,7 +36,10 @@ jobs:
         with:
           dependency-graph: generate-and-submit
       - name: Output Test-Summary
-        run: cat ./tournament-core/build/reports/summary.md > $GITHUB_STEP_SUMMARY
+        run: |
+          ls
+          ls build
+          ls tournament-core/build
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         with:
