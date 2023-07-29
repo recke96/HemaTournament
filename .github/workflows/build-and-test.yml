@@ -44,5 +44,6 @@ jobs:
         run: ./gradlew check
       - name: Output Test-Summary
         run: cat ./tournament-core/build/reports/summary.md > $GITHUB_STEP_SUMMARY
+        if: success() || failure()
       - name: CodeQL Analysis
         uses: github/codeql-action/analyze@v2
