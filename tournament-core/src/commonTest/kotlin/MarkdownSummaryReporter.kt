@@ -62,8 +62,6 @@ class MarkdownSummaryReporter(
         }
 
     override suspend fun afterProject() {
-
-
         val path = outputFile()
         path.parent.toFile().mkdirs()
 
@@ -162,14 +160,14 @@ class MarkdownSummaryReporter(
         appendLine("<summary>**$heading**</summary>")
         appendLine()
 
-        appendLine("| Test | Message |")
-        appendLine("| ---- | :------ |")
+        appendLine("| Test | Duration | Message |")
+        appendLine("| :--: | :------: | :------ |")
 
         val formatter = getDisplayNameFormatter(config.registry, config)
         for ((case, result) in results) {
             val test = if (useTestPathAsName) formatter.formatTestPath(case, "--") else formatter.format(case)
 
-            appendLine("| $test | ${result.message()} |")
+            appendLine("| $test | ${result.duration} | ${result.message()} |")
         }
 
         appendLine("</details>")
