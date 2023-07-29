@@ -42,5 +42,7 @@ jobs:
           queries: security-and-quality
       - name: Check
         run: ./gradlew check
+      - name: Output Test-Summary
+        run: cat ./tournament-core/build/reports/summary.md > $GITHUB_STEP_SUMMARY
       - name: CodeQL Analysis
         uses: github/codeql-action/analyze@v2
