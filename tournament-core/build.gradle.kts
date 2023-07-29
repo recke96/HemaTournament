@@ -55,5 +55,6 @@ kotlin {
 tasks.withType<Test>().configureEach {
 	useJUnitPlatform()
     testLogging.setShowStandardStreams(true)
+    systemProperty("gradle.build.dir", project.buildDir)
 }
 
