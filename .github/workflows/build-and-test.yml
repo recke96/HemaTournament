@@ -35,8 +35,6 @@ jobs:
         uses: gradle/gradle-build-action@v2.7.0
         with:
           dependency-graph: generate-and-submit
-      - name: Output Test-Summary
-        run: cat ./tournament-core/build/reports/summary.md > $GITHUB_STEP_SUMMARY
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         with:
@@ -44,5 +42,7 @@ jobs:
           queries: security-and-quality
       - name: Check
         run: ./gradlew check
+      - name: Output Test-Summary
+        run: cat ./tournament-core/build/reports/summary.md > $GITHUB_STEP_SUMMARY
       - name: CodeQL Analysis
         uses: github/codeql-action/analyze@v2
