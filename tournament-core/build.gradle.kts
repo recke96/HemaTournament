@@ -2,6 +2,7 @@ plugins {
     kotlin("multiplatform")
     id("org.jetbrains.dokka")
     id("io.kotest.multiplatform")
+    id("org.jetbrains.kotlinx.kover")
 }
 
 group = "info.marozzo.tournament"
