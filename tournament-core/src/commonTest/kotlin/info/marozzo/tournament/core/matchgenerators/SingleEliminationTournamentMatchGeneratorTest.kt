@@ -84,18 +84,6 @@ class SingleEliminationTournamentMatchGeneratorTest : FunSpec({
             }
         }
     }
-
-    test("Test the report failures") {
-        true.shouldBeFalse()
-    }
-
-    xtest("Test the report xignore") {
-        true.shouldBeFalse()
-    }
-
-    test("Test the report errors") {
-        throw IllegalStateException("xxxx")
-    }
 })
 
 private fun matchesPerRound(n: Int, rounds: Int): Sequence<Int> = sequence {
