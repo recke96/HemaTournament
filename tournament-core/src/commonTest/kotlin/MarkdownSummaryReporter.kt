@@ -87,7 +87,7 @@ class MarkdownSummaryReporter(
             }
 
             if (!combineErrorAndFailure && details.contains(Details.FAILURE)) {
-                appendLine(details("Errors", failures))
+                appendLine(details("Failures", failures))
             }
 
             if (details.contains(Details.IGNORED)) {
