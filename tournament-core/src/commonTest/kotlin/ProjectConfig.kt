@@ -5,7 +5,7 @@ import io.kotest.core.extensions.Extension
 object ProjectConfig : AbstractProjectConfig() {
 
     override fun extensions(): List<Extension> = listOf(
-        MarkdownSummaryReporter()
+        MarkdownSummaryReporter(combineErrorAndFailure = true)
     )
 
 }

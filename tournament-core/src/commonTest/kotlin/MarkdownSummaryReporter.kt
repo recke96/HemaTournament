@@ -7,6 +7,7 @@ import io.kotest.core.spec.Spec
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestResult
 import io.kotest.core.test.TestType
+import io.kotest.engine.test.names.formatTestPath
 import io.kotest.engine.test.names.getDisplayNameFormatter
 import java.nio.file.Path
 import java.util.concurrent.ConcurrentLinkedQueue
@@ -29,7 +30,7 @@ class MarkdownSummaryReporter(
     private val summaries: Set<Summary> = setOf(Summary.MERMAID_PIE_CHART),
     private val details: Set<Details> = setOf(Details.IGNORED, Details.ERROR, Details.FAILURE),
     private val outputFile: String = "reports/summary.md",
-    private val outputFileSizeLimit: Int = DEFAULT_SIZE_LIMIT
+    private val outputFileSizeLimit: Int = DEFAULT_SIZE_LIMIT,
 ) : ProjectExtension, FinalizeSpecListener, AfterProjectListener {
 
     companion object {
@@ -62,7 +63,6 @@ class MarkdownSummaryReporter(
 
     override suspend fun afterProject() {
 
-        val formatter = getDisplayNameFormatter(config.registry, config)
 
         val path = outputFile()
         path.parent.toFile().mkdirs()
@@ -80,7 +80,25 @@ class MarkdownSummaryReporter(
                 appendLine()
             }
 
+            if (combineErrorAndFailure && (details.contains(Details.ERROR) || details.contains(Details.FAILURE))) {
+                appendLine(details("Errors & Failures", errors + failures))
+            }
 
+            if (!combineErrorAndFailure && details.contains(Details.ERROR)) {
+                appendLine(details("Errors", errors))
+            }
+
+            if (!combineErrorAndFailure && details.contains(Details.FAILURE)) {
+                appendLine(details("Errors", failures))
+            }
+
+            if (details.contains(Details.IGNORED)) {
+                appendLine(details("Ignored", ignored))
+            }
+
+            if (details.contains(Details.SUCCESS)) {
+                appendLine(details("Successes", successes))
+            }
         }
 
         val bytes = summary.encodeToByteArray().let {
@@ -137,5 +155,30 @@ class MarkdownSummaryReporter(
             | Errors | ${errors.size} |
             | Failures | ${failures.size} |
         """.trimIndent()
+    }
+
+    private fun details(heading: String, results: Iterable<Pair<TestCase, TestResult>>) = buildString {
+        appendLine("<details>")
+        appendLine("<summary>**$heading**</summary>")
+        appendLine()
+
+        appendLine("| Test | Message |")
+        appendLine("| ---- | :------ |")
+
+        val formatter = getDisplayNameFormatter(config.registry, config)
+        for ((case, result) in results) {
+            val test = if (useTestPathAsName) formatter.formatTestPath(case, "--") else formatter.format(case)
+
+            appendLine("| $test | ${result.message()} |")
+        }
+
+        appendLine("</details>")
+    }
+
+    private fun TestResult.message() = when (this) {
+        is TestResult.Success -> "Ok"
+        is TestResult.Ignored -> reason
+        is TestResult.Error -> cause.message ?: ""
+        is TestResult.Failure -> cause.message ?: ""
     }
 }
