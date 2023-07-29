@@ -3,12 +3,21 @@ import io.kotest.core.listeners.FinalizeSpecListener
 import io.kotest.core.spec.Spec
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestResult
+import java.nio.file.Path
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.io.path.Path
+import kotlin.io.path.absolute
 import kotlin.io.path.writeText
 import kotlin.reflect.KClass
 
-class MarkdownReporter : FinalizeSpecListener, AfterProjectListener {
+class MarkdownSummaryReporter(
+    private val outputFile: String = "reports/summary.md",
+) : FinalizeSpecListener, AfterProjectListener {
+
+    companion object {
+        const val DEFAULT_BUILD_DIR = "./build"
+        const val BUILD_DIR_KEY = "gradle.build.dir"
+    }
 
     private val successes = AtomicInteger(0)
     private val ignored = AtomicInteger(0)
@@ -23,7 +32,7 @@ class MarkdownReporter : FinalizeSpecListener, AfterProjectListener {
     }
 
     override suspend fun afterProject() {
-        val path = Path("./build/reports/summary.md")
+        val path = outputFile()
         path.parent.toFile().mkdirs()
 
         path.writeText(
@@ -43,5 +52,8 @@ class MarkdownReporter : FinalizeSpecListener, AfterProjectListener {
         )
     }
 
-
+    private fun outputFile(): Path {
+        val buildDir = System.getProperty(BUILD_DIR_KEY) ?: DEFAULT_BUILD_DIR
+        return Path(buildDir, outputFile).normalize().absolute()
+    }
 }
