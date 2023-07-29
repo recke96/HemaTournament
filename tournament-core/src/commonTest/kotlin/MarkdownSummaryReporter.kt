@@ -157,7 +157,7 @@ class MarkdownSummaryReporter(
 
     private fun details(heading: String, results: Iterable<Pair<TestCase, TestResult>>) = buildString {
         appendLine("<details>")
-        appendLine("<summary>**$heading**</summary>")
+        appendLine("<summary> **$heading** </summary>")
         appendLine()
 
         appendLine("| Test | Duration | Message |")
