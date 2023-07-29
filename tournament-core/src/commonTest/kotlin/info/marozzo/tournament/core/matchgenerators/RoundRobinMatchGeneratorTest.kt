@@ -1,5 +1,6 @@
+package info.marozzo.tournament.core.matchgenerators
+
 import info.marozzo.tournament.core.Competitor
-import info.marozzo.tournament.core.matchgenerators.RoundRobinTournamentMatchGenerator
 import io.kotest.assertions.assertSoftly
 import io.kotest.assertions.withClue
 import io.kotest.core.spec.style.FunSpec
@@ -11,6 +12,7 @@ import io.kotest.property.arbitrary.map
 import io.kotest.property.arbitrary.set
 import io.kotest.property.checkAll
 import kotlinx.collections.immutable.toImmutableList
+import participant
 
 class RoundRobinMatchGeneratorTest : FunSpec({
 
