@@ -19,7 +19,7 @@ jobs:
       - name: Validate Gradle-Wrapper
         uses: gradle/wrapper-validation-action@v1.1.0
       - name: Build & Package
-        uses: gradle/gradle-build-action@v2.7.0
+        uses: gradle/gradle-build-action@v2.7.1
         with:
           arguments: packageReleaseMsi
       - name: Upload
@@ -39,7 +39,7 @@ jobs:
       - name: Validate Gradle-Wrapper
         uses: gradle/wrapper-validation-action@v1.1.0
       - name: Build & Package
-        uses: gradle/gradle-build-action@v2.7.0
+        uses: gradle/gradle-build-action@v2.7.1
         with:
           arguments: packageReleaseDeb
       - name: Upload
