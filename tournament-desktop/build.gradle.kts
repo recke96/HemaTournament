@@ -3,6 +3,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
+    id("com.google.devtools.ksp")
 }
 
 group = "info.marozzo.tournament"
@@ -12,6 +13,11 @@ repositories {
     google()
     mavenCentral()
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+}
+
+ksp {
+    arg("lyricist.internalVisibility", "true")
+    arg("lyricist.packageName", "info.marozzo.tournament.desktop.i18n")
 }
 
 kotlin {
@@ -35,10 +41,17 @@ kotlin {
                 implementation("com.arkivanov.mvikotlin:mvikotlin:3.2.1")
                 implementation("com.arkivanov.mvikotlin:mvikotlin-main:3.2.1")
                 implementation("com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines:3.2.1")
+
+                implementation("cafe.adriel.lyricist:lyricist:1.4.2")
+                kotlin.srcDir("$buildDir/generated/ksp/jvm/jvmMain/kotlin")
             }
         }
         val jvmTest by getting
     }
+}
+
+dependencies {
+    add("kspJvm", "cafe.adriel.lyricist:lyricist-processor:1.4.2")
 }
 
 compose.desktop {
