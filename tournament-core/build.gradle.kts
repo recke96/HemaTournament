@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.dokka")
     id("io.kotest.multiplatform")
     id("org.jetbrains.kotlinx.kover")
+    id("com.google.devtools.ksp")
 }
 
 group = "info.marozzo.tournament"
@@ -25,9 +26,14 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
+
                 implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
+
+                implementation("io.arrow-kt:arrow-core:1.2.0")
+                implementation("io.arrow-kt:arrow-fx-coroutines:1.2.0")
             }
         }
         val commonTest by getting {
@@ -53,8 +59,8 @@ kotlin {
 }
 
 tasks.withType<Test>().configureEach {
-	useJUnitPlatform()
+    useJUnitPlatform()
     testLogging.setShowStandardStreams(true)
-    systemProperty("gradle.build.dir", project.buildDir)
+    val buildDir = layout.buildDirectory.asFile.get().path
+    systemProperty("gradle.build.dir", buildDir)
 }
-
