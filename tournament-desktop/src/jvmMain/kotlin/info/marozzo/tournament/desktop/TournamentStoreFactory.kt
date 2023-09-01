@@ -20,7 +20,7 @@ internal class TournamentStoreFactory(private val storeFactory: StoreFactory) {
         object : TournamentStore, Store<TournamentStore.Intent, TournamentStore.State, Nothing> by storeFactory.create(
             name = "TournamentStore",
             initialState = TournamentStore.State(
-                Event(EventId(0))
+                null
             ),
             executorFactory = ::TournamentExecutor,
             reducer = TournamentReducer,

@@ -28,6 +28,7 @@ fun main() {
             onCloseRequest = { setIsCloseRequested(true) },
         ) {
             AppTheme {
+                TournamentApp(state, tournamentStore::accept)
                 CloseConfirmationDialog(
                     isCloseRequested = isCloseRequested,
                     onClose = { exitApplication() },

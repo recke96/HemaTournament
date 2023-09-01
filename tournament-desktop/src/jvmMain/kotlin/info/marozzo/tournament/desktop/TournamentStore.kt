@@ -17,5 +17,5 @@ internal interface TournamentStore : Store<TournamentStore.Intent, TournamentSto
 
     }
 
-    data class State(val event: Event)
+    data class State(val event: Event?)
 }

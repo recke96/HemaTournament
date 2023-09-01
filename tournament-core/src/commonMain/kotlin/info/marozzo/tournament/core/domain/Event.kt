@@ -12,6 +12,7 @@ value class EventId(private val id: Int)
 @AggregateRoot
 data class Event(
     override val id: EventId,
+    val name: Name,
     val participants: PersistentSet<Participant> = persistentSetOf()
 ) : Entity<EventId>()
 
