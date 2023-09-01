@@ -11,9 +11,7 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.arkivanov.mvikotlin.extensions.coroutines.states
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
-import info.marozzo.tournament.desktop.components.App
 import info.marozzo.tournament.desktop.components.CloseConfirmationDialog
-import info.marozzo.tournament.desktop.components.util.WithWidthClass
 import info.marozzo.tournament.desktop.theme.AppTheme
 
 fun main() {
@@ -30,16 +28,11 @@ fun main() {
             onCloseRequest = { setIsCloseRequested(true) },
         ) {
             AppTheme {
-                WithWidthClass {
-
-                    App(state, tournamentStore::accept)
-
-                    CloseConfirmationDialog(
-                        isCloseRequested = isCloseRequested,
-                        onClose = { exitApplication() },
-                        onDismiss = { setIsCloseRequested(false) }
-                    )
-                }
+                CloseConfirmationDialog(
+                    isCloseRequested = isCloseRequested,
+                    onClose = { exitApplication() },
+                    onDismiss = { setIsCloseRequested(false) }
+                )
             }
         }
     }
