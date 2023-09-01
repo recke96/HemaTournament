@@ -1,6 +1,8 @@
 package info.marozzo.tournament.desktop.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -29,13 +31,15 @@ fun CloseConfirmationDialog(
                 onClick = { onClose() },
                 modifier = Modifier.focusRequester(focusRequester)
             ) {
-                Icon(Icons.Default.Check, contentDescription = null)
+                Icon(Icons.Default.Check, contentDescription = null, modifier = Modifier.size(ButtonDefaults.IconSize))
+                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                 Text(LocalStrings.current.common.ok)
             }
         },
         dismissButton = {
             OutlinedButton(onClick = { onDismiss() }) {
-                Icon(Icons.Default.Close, contentDescription = null)
+                Icon(Icons.Default.Close, contentDescription = null, modifier = Modifier.size(ButtonDefaults.IconSize))
+                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                 Text(LocalStrings.current.common.cancel)
             }
         }
