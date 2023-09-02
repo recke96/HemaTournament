@@ -7,7 +7,6 @@ internal object Locales {
 
 internal interface AppStrings {
     val appTitle: String
-    val openNavigation: String
     val common: Common
     val closeDialog: CloseDialog
 }

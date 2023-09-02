@@ -16,6 +16,7 @@ import info.marozzo.tournament.desktop.components.CloseConfirmationDialog
 import info.marozzo.tournament.desktop.i18n.LocalStrings
 import info.marozzo.tournament.desktop.i18n.ProvideStrings
 import info.marozzo.tournament.desktop.i18n.rememberStrings
+import info.marozzo.tournament.desktop.store.TournamentStoreFactory
 import info.marozzo.tournament.desktop.theme.AppTheme
 
 fun main() {

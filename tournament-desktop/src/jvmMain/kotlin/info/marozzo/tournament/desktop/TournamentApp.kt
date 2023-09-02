@@ -1,12 +1,48 @@
 package info.marozzo.tournament.desktop
 
-import androidx.compose.material3.Scaffold
+import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import info.marozzo.tournament.desktop.components.TournamentTopBar
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import info.marozzo.tournament.desktop.screens.LandingScreen
+import info.marozzo.tournament.desktop.store.TournamentStore
 
 @Composable
-internal fun TournamentApp(state: TournamentStore.State, accept: (TournamentStore.Intent) -> Unit) = Scaffold(
-    topBar = { TournamentTopBar(state.event, accept) },
-) {
-
-}
+internal fun TournamentApp(state: TournamentStore.State, accept: (TournamentStore.Intent) -> Unit) =
+    Scaffold { padding ->
+        Row {
+            NavigationRail(
+                header = {
+                    IconButton(onClick = {}) {
+                        Icon(Icons.Default.Menu, contentDescription = "Menu")
+                    }
+                },
+                modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer)
+            ) {
+                NavigationRailItem(
+                    selected = false,
+                    icon = { Icon(Icons.Default.Home, contentDescription = "home") },
+                    onClick = {},
+                    enabled = false
+                )
+            }
+            Divider(
+                modifier = Modifier.fillMaxHeight().widthIn(1.dp, 3.dp)
+            )
+            Box(
+                modifier = Modifier.padding(padding)
+            ) {
+                Crossfade(targetState = state) { state ->
+                    when (state) {
+                        is TournamentStore.LandingState -> LandingScreen(state, accept)
+                    }
+                }
+            }
+        }
+    }
