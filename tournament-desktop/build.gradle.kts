@@ -47,6 +47,9 @@ kotlin {
 
                 implementation("io.arrow-kt:arrow-core:1.2.0")
                 implementation("io.arrow-kt:arrow-fx-coroutines:1.2.0")
+
+                implementation("io.insert-koin:koin-core:3.4.3")
+                implementation("io.insert-koin:koin-core-coroutines:3.4.3")
             }
         }
         val jvmTest by getting

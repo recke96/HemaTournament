@@ -11,16 +11,21 @@ import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.arkivanov.mvikotlin.extensions.coroutines.states
-import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
+import info.marozzo.tournament.desktop.application.idgenerators.idGeneratorsModule
+import info.marozzo.tournament.desktop.application.store.TournamentStore
+import info.marozzo.tournament.desktop.application.store.storeModule
 import info.marozzo.tournament.desktop.components.CloseConfirmationDialog
 import info.marozzo.tournament.desktop.i18n.LocalStrings
 import info.marozzo.tournament.desktop.i18n.ProvideStrings
 import info.marozzo.tournament.desktop.i18n.rememberStrings
-import info.marozzo.tournament.desktop.store.TournamentStoreFactory
 import info.marozzo.tournament.desktop.theme.AppTheme
+import org.koin.core.context.startKoin
 
 fun main() {
-    val tournamentStore = TournamentStoreFactory(DefaultStoreFactory()).create()
+    val koinApp = startKoin {
+        modules(idGeneratorsModule, storeModule)
+    }
+    val tournamentStore = koinApp.koin.get<TournamentStore>()
     application {
         val state by tournamentStore.states.collectAsState(tournamentStore.state)
         val windowState = rememberWindowState(
