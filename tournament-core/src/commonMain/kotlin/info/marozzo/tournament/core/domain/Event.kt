@@ -7,7 +7,7 @@ import kotlinx.collections.immutable.PersistentSet
 import kotlinx.collections.immutable.persistentSetOf
 
 @JvmInline
-value class EventId(private val id: Int)
+value class EventId(private val id: String)
 
 @AggregateRoot
 data class Event(

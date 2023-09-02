@@ -44,6 +44,9 @@ kotlin {
 
                 implementation("cafe.adriel.lyricist:lyricist:1.4.2")
                 kotlin.srcDir("$buildDir/generated/ksp/jvm/jvmMain/kotlin")
+
+                implementation("io.arrow-kt:arrow-core:1.2.0")
+                implementation("io.arrow-kt:arrow-fx-coroutines:1.2.0")
             }
         }
         val jvmTest by getting
