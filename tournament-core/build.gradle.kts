@@ -46,7 +46,7 @@ kotlin {
         val jvmMain by getting
         val jvmTest by getting {
             dependencies {
-                implementation("io.kotest:kotest-runner-junit5-jvm:5.6.2")
+                implementation("io.kotest:kotest-runner-junit5-jvm:5.7.0")
             }
         }
     }
