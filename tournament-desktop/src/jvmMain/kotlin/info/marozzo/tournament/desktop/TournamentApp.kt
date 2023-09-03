@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -29,7 +30,7 @@ internal fun TournamentApp(state: TournamentState, accept: AcceptFunction) =
             ) {
                 NavigationRailItem(
                     selected = false,
-                    icon = { Icon(Icons.Default.Home, contentDescription = "home") },
+                    icon = { Icon(Icons.Outlined.Home, contentDescription = "home") },
                     onClick = {},
                     enabled = false
                 )
