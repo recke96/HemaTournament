@@ -11,9 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import info.marozzo.tournament.desktop.application.stores.AcceptFunction
-import info.marozzo.tournament.desktop.screens.LandingScreen
+import info.marozzo.tournament.desktop.screens.NoEventScreen
 import info.marozzo.tournament.desktop.application.stores.tournament.NoEventState
-import info.marozzo.tournament.desktop.application.stores.tournament.TournamentIntent
 import info.marozzo.tournament.desktop.application.stores.tournament.TournamentState
 
 @Composable
@@ -43,7 +42,7 @@ internal fun TournamentApp(state: TournamentState, accept: AcceptFunction) =
             ) {
                 Crossfade(targetState = state) { state ->
                     when (state) {
-                        is NoEventState -> LandingScreen(state, accept)
+                        is NoEventState -> NoEventScreen(accept)
                     }
                 }
             }
