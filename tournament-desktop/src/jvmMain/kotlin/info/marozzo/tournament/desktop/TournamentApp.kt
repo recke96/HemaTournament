@@ -11,9 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import info.marozzo.tournament.desktop.screens.LandingScreen
-import info.marozzo.tournament.desktop.application.store.LandingState
-import info.marozzo.tournament.desktop.application.store.TournamentIntent
-import info.marozzo.tournament.desktop.application.store.TournamentState
+import info.marozzo.tournament.desktop.application.stores.tournament.LandingState
+import info.marozzo.tournament.desktop.application.stores.tournament.TournamentIntent
+import info.marozzo.tournament.desktop.application.stores.tournament.TournamentState
 
 @Composable
 internal fun TournamentApp(state: TournamentState, accept: (TournamentIntent) -> Unit) =

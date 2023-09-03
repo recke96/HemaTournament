@@ -7,9 +7,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import info.marozzo.tournament.desktop.application.store.LandingState
-import info.marozzo.tournament.desktop.application.store.TournamentIntent
-import info.marozzo.tournament.desktop.application.store.TournamentState
+import info.marozzo.tournament.desktop.application.stores.tournament.LandingState
+import info.marozzo.tournament.desktop.application.stores.tournament.TournamentIntent
 
 @Composable
 internal fun LandingScreen(state: LandingState, accept: (TournamentIntent) -> Unit) {

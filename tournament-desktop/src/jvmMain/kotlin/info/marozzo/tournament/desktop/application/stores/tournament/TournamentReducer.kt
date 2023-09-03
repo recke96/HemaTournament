@@ -1,4 +1,4 @@
-package info.marozzo.tournament.desktop.application.store
+package info.marozzo.tournament.desktop.application.stores.tournament
 
 import com.arkivanov.mvikotlin.core.store.Reducer
 

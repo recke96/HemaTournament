@@ -1,4 +1,4 @@
-package info.marozzo.tournament.desktop.application.store
+package info.marozzo.tournament.desktop.application.stores.tournament
 
 internal sealed class TournamentState;
 
