@@ -12,6 +12,7 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.arkivanov.mvikotlin.extensions.coroutines.states
 import info.marozzo.tournament.desktop.application.idgenerators.idGeneratorsModule
+import info.marozzo.tournament.desktop.application.stores.AcceptFunction
 import info.marozzo.tournament.desktop.application.stores.tournament.TournamentStore
 import info.marozzo.tournament.desktop.application.stores.storesModule
 import info.marozzo.tournament.desktop.components.CloseConfirmationDialog
@@ -26,6 +27,7 @@ fun main() {
         modules(idGeneratorsModule, storesModule)
     }
     val tournamentStore = koinApp.koin.get<TournamentStore>()
+    val accept = koinApp.koin.get<AcceptFunction>()
     application {
         val state by tournamentStore.states.collectAsState(tournamentStore.state)
         val windowState = rememberWindowState(
@@ -39,7 +41,7 @@ fun main() {
                 onCloseRequest = { setIsCloseRequested(true) },
             ) {
                 AppTheme {
-                    TournamentApp(state, tournamentStore::accept)
+                    TournamentApp(state, accept)
                     CloseConfirmationDialog(
                         isCloseRequested = isCloseRequested,
                         onClose = { exitApplication() },

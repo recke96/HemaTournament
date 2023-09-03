@@ -10,13 +10,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import info.marozzo.tournament.desktop.application.stores.AcceptFunction
 import info.marozzo.tournament.desktop.screens.LandingScreen
-import info.marozzo.tournament.desktop.application.stores.tournament.LandingState
+import info.marozzo.tournament.desktop.application.stores.tournament.NoEventState
 import info.marozzo.tournament.desktop.application.stores.tournament.TournamentIntent
 import info.marozzo.tournament.desktop.application.stores.tournament.TournamentState
 
 @Composable
-internal fun TournamentApp(state: TournamentState, accept: (TournamentIntent) -> Unit) =
+internal fun TournamentApp(state: TournamentState, accept: AcceptFunction) =
     Scaffold { padding ->
         Row {
             NavigationRail(
@@ -42,7 +43,7 @@ internal fun TournamentApp(state: TournamentState, accept: (TournamentIntent) ->
             ) {
                 Crossfade(targetState = state) { state ->
                     when (state) {
-                        is LandingState -> LandingScreen(state, accept)
+                        is NoEventState -> LandingScreen(state, accept)
                     }
                 }
             }
