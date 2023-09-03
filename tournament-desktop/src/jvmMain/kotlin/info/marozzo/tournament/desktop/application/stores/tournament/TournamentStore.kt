@@ -8,13 +8,14 @@ internal interface TournamentStore : Store<TournamentIntent, TournamentState, No
         fun create(
             storeFactory: StoreFactory,
             executorFactory: () -> TournamentExecutor,
-            reducer: TournamentReducer
+            reducer: TournamentReducer,
         ): TournamentStore =
             object : TournamentStore, Store<TournamentIntent, TournamentState, Nothing> by storeFactory.create(
                 name = "TournamentStore",
                 initialState = NoEventState,
                 executorFactory = executorFactory,
-                reducer = reducer
+                reducer = reducer,
+                autoInit = false,
             ) {}
     }
 }

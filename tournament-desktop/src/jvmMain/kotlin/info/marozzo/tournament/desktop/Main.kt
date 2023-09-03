@@ -1,16 +1,15 @@
 package info.marozzo.tournament.desktop
 
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import com.arkivanov.mvikotlin.core.utils.setMainThreadId
 import com.arkivanov.mvikotlin.extensions.coroutines.states
+import info.marozzo.tournament.desktop.application.di
 import info.marozzo.tournament.desktop.application.idgenerators.idGeneratorsModule
 import info.marozzo.tournament.desktop.application.stores.AcceptFunction
 import info.marozzo.tournament.desktop.application.stores.tournament.TournamentStore
@@ -20,15 +19,22 @@ import info.marozzo.tournament.desktop.i18n.LocalStrings
 import info.marozzo.tournament.desktop.i18n.ProvideStrings
 import info.marozzo.tournament.desktop.i18n.rememberStrings
 import info.marozzo.tournament.desktop.theme.AppTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
+import org.jetbrains.skiko.MainUIDispatcher
 import org.koin.core.context.startKoin
 
-fun main() {
-    val koinApp = startKoin {
-        modules(idGeneratorsModule, storesModule)
-    }
-    val tournamentStore = koinApp.koin.get<TournamentStore>()
-    val accept = koinApp.koin.get<AcceptFunction>()
-    application {
+fun main() = runBlocking {
+    withContext(MainUIDispatcher) { setMainThreadId(Thread.currentThread().id) }
+
+    val di = di()
+    val tournamentStore = di.get<TournamentStore>()
+    withContext(MainUIDispatcher) { tournamentStore.init() }
+
+    val accept = di.get<AcceptFunction>()
+
+    application(exitProcessOnExit = false) {
         val state by tournamentStore.states.collectAsState(tournamentStore.state)
         val windowState = rememberWindowState(
             placement = WindowPlacement.Maximized, size = DpSize.Unspecified
