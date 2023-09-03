@@ -1,0 +1,9 @@
+select:
+SELECT *
+FROM Settings;
+
+updateLanguage:
+UPDATE Settings
+SET languageTag = :languageTag,
+    version = :version + 1
+WHERE id = :id AND version = :version;

@@ -1,0 +1,16 @@
+CREATE TABLE Settings (
+    id INT AS VALUE PRIMARY KEY NOT NULL,
+    languageTag CHAR(2),
+    version INT AS LOCK
+);
+
+INSERT INTO Settings (id, languageTag, version)
+VALUES (1, NULL, 0);
+
+CREATE TABLE FileHistory(
+    id INT AS VALUE PRIMARY KEY NOT NULL,
+    file VARCHAR(4096) NOT NULL,
+    firstAccess TIMESTAMP NOT NULL,
+    lastAccess TIMESTAMP NOT NULL,
+    version INT AS LOCK
+);

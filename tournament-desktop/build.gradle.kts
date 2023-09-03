@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.mpp)
     alias(libs.plugins.compose)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.sqldelight)
 }
 
 group = "info.marozzo.tournament"
@@ -48,6 +49,9 @@ kotlin {
                 implementation(libs.bundles.koin)
 
                 implementation(libs.appdirs)
+
+                implementation(libs.sqldelight.driver)
+                runtimeOnly(libs.h2)
             }
         }
         val jvmTest by getting
@@ -56,6 +60,17 @@ kotlin {
 
 dependencies {
     add("kspJvm", libs.lyricist.processor)
+}
+
+sqldelight {
+    databases {
+        create("AppDb") {
+            packageName.set("info.marozzo.tournament.desktop.db")
+            dialect(libs.sqldelight.dialect.h2)
+            deriveSchemaFromMigrations.set(true)
+            srcDirs("src/jvmMain/sqldelight")
+        }
+    }
 }
 
 compose.desktop {
