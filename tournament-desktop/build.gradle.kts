@@ -46,6 +46,8 @@ kotlin {
                 implementation(libs.bundles.arrow)
 
                 implementation(libs.bundles.koin)
+
+                implementation(libs.appdirs)
             }
         }
         val jvmTest by getting

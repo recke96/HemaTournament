@@ -13,6 +13,7 @@ arrow = "1.2.0"
 mvi = "3.2.1"
 lyricist = "1.4.2"
 koin = "3.4.3"
+appdirs = "1.2.2"
 
 [libraries]
 dokka-mathjax = { group = "org.jetbrains.dokka", name = "mathjax-plugin", version.ref = "dokka" }
@@ -31,6 +32,7 @@ lyricist = { group = "cafe.adriel.lyricist", name = "lyricist", version.ref = "l
 lyricist-processor = { group = "cafe.adriel.lyricist", name = "lyricist-processor", version.ref = "lyricist" }
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 koin-coroutines = { group = "io.insert-koin", name = "koin-core-coroutines", version.ref = "koin" }
+appdirs = { group = "net.harawata", name = "appdirs", version.ref = "appdirs" }
 kotest-assertions-core = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
 kotest-property = { group = "io.kotest", name = "kotest-property", version.ref = "kotest" }
 kotest-arb-extension = { group = "io.kotest.extensions", name = "kotest-property-arbs", version.ref = "kotest-arb-extensions" }
