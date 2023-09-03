@@ -5,7 +5,6 @@ import cafe.adriel.lyricist.LyricistStrings
 @LyricistStrings(languageTag = Locales.DE)
 internal val DeAppStrings = object : AppStrings {
     override val appTitle = "Turnier Planer"
-    override val openNavigation = "Navigation öffnen"
     override val common = object : Common {
         override val ok = "Ok"
         override val cancel = "Abbrechen"

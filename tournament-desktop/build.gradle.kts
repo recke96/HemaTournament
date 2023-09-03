@@ -1,9 +1,9 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
-    kotlin("multiplatform")
-    id("org.jetbrains.compose")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.kotlin.mpp)
+    alias(libs.plugins.compose)
+    alias(libs.plugins.ksp)
 }
 
 group = "info.marozzo.tournament"
@@ -33,23 +33,19 @@ kotlin {
 
                 implementation(project(":tournament-core"))
 
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.7.3")
+                implementation(libs.kotlinx.coroutines.core.jvm)
+                implementation(libs.kotlinx.coroutines.swing)
 
-                implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
+                implementation(libs.kotlinx.collections.immutable)
 
-                implementation("com.arkivanov.mvikotlin:mvikotlin:3.2.1")
-                implementation("com.arkivanov.mvikotlin:mvikotlin-main:3.2.1")
-                implementation("com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines:3.2.1")
+                implementation(libs.bundles.mvi)
 
-                implementation("cafe.adriel.lyricist:lyricist:1.4.2")
-                kotlin.srcDir("$buildDir/generated/ksp/jvm/jvmMain/kotlin")
+                implementation(libs.lyricist)
+                kotlin.srcDir("${layout.buildDirectory}/generated/ksp/jvm/jvmMain/kotlin")
 
-                implementation("io.arrow-kt:arrow-core:1.2.0")
-                implementation("io.arrow-kt:arrow-fx-coroutines:1.2.0")
+                implementation(libs.bundles.arrow)
 
-                implementation("io.insert-koin:koin-core:3.4.3")
-                implementation("io.insert-koin:koin-core-coroutines:3.4.3")
+                implementation(libs.bundles.koin)
             }
         }
         val jvmTest by getting
@@ -57,7 +53,7 @@ kotlin {
 }
 
 dependencies {
-    add("kspJvm", "cafe.adriel.lyricist:lyricist-processor:1.4.2")
+    add("kspJvm", libs.lyricist.processor)
 }
 
 compose.desktop {

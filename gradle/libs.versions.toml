@@ -1,0 +1,51 @@
+[versions]
+kotlin = "1.9.0"
+compose = "1.5.0"
+kotest = "5.7.1"
+kotest-arb-extensions = "2.1.2"
+kover = "0.7.3"
+ksp = "1.9.0-1.0.13"
+dokka = "1.9.0"
+kotlinx-collections-immutable = "0.3.5"
+kotlinx-coroutines = "1.7.3"
+kotlinx-datetime = "0.4.1"
+arrow = "1.2.0"
+mvi = "3.2.1"
+lyricist = "1.4.2"
+koin = "3.4.3"
+
+[libraries]
+dokka-mathjax = { group = "org.jetbrains.dokka", name = "mathjax-plugin", version.ref = "dokka" }
+kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinx-collections-immutable" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-core-jvm = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core-jvm", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinx-datetime" }
+arrow-core = { group = "io.arrow-kt", name = "arrow-core", version.ref = "arrow" }
+arrow-coroutines = { group = "io.arrow-kt", name = "arrow-fx-coroutines", version.ref = "arrow" }
+mvi = { group = "com.arkivanov.mvikotlin", name = "mvikotlin", version.ref = "mvi" }
+mvi-main = { group = "com.arkivanov.mvikotlin", name = "mvikotlin-main", version.ref = "mvi" }
+mvi-coroutines = { group = "com.arkivanov.mvikotlin", name = "mvikotlin-extensions-coroutines", version.ref = "mvi" }
+lyricist = { group = "cafe.adriel.lyricist", name = "lyricist", version.ref = "lyricist" }
+lyricist-processor = { group = "cafe.adriel.lyricist", name = "lyricist-processor", version.ref = "lyricist" }
+koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
+koin-coroutines = { group = "io.insert-koin", name = "koin-core-coroutines", version.ref = "koin" }
+kotest-assertions-core = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
+kotest-property = { group = "io.kotest", name = "kotest-property", version.ref = "kotest" }
+kotest-arb-extension = { group = "io.kotest.extensions", name = "kotest-property-arbs", version.ref = "kotest-arb-extensions" }
+kotest-runner-jvm = { group = "io.kotest", name = "kotest-runner-junit5-jvm", version.ref = "kotest" }
+
+[bundles]
+arrow = ["arrow-core", "arrow-coroutines"]
+kotest-common = ["kotest-assertions-core", "kotest-property", "kotest-arb-extension"]
+mvi = ["mvi", "mvi-main", "mvi-coroutines"]
+koin = ["koin-core", "koin-coroutines"]
+
+[plugins]
+kotlin-mpp = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinx-kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+compose = { id = "org.jetbrains.compose", version.ref = "compose" }
+kotest-mpp = { id = "io.kotest.multiplatform", version.ref = "kotest" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
