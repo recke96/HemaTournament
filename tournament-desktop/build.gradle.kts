@@ -1,4 +1,6 @@
+import com.fasterxml.jackson.module.kotlin.kotlinModule
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     alias(libs.plugins.kotlin.mpp)
@@ -42,9 +44,9 @@ kotlin {
                 implementation(libs.bundles.mvi)
 
                 implementation(libs.lyricist)
-                kotlin.srcDir("${layout.buildDirectory}/generated/ksp/jvm/jvmMain/kotlin")
 
                 implementation(libs.bundles.arrow)
+                implementation(libs.arrow.suspendapp)
 
                 implementation(libs.bundles.koin)
 
@@ -60,6 +62,12 @@ kotlin {
 
 dependencies {
     add("kspJvm", libs.lyricist.processor)
+}
+
+tasks.withType<KotlinCompile>() {
+    compilerOptions {
+        freeCompilerArgs.add("-Xcontext-receivers")
+    }
 }
 
 sqldelight {

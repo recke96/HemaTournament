@@ -10,6 +10,7 @@ kotlinx-collections-immutable = "0.3.5"
 kotlinx-coroutines = "1.7.3"
 kotlinx-datetime = "0.4.1"
 arrow = "1.2.0"
+arrow-suspendapp = "0.4.0"
 mvi = "3.2.1"
 lyricist = "1.4.2"
 koin = "3.4.3"
@@ -27,6 +28,7 @@ kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinx-datetime" }
 arrow-core = { group = "io.arrow-kt", name = "arrow-core", version.ref = "arrow" }
 arrow-coroutines = { group = "io.arrow-kt", name = "arrow-fx-coroutines", version.ref = "arrow" }
+arrow-suspendapp = { group = "io.arrow-kt", name = "suspendapp", version.ref = "arrow-suspendapp" }
 mvi = { group = "com.arkivanov.mvikotlin", name = "mvikotlin", version.ref = "mvi" }
 mvi-main = { group = "com.arkivanov.mvikotlin", name = "mvikotlin-main", version.ref = "mvi" }
 mvi-coroutines = { group = "com.arkivanov.mvikotlin", name = "mvikotlin-extensions-coroutines", version.ref = "mvi" }
