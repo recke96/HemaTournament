@@ -7,8 +7,6 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import app.cash.sqldelight.coroutines.asFlow
-import app.cash.sqldelight.coroutines.mapToOne
 import arrow.continuations.SuspendApp
 import arrow.fx.coroutines.resourceScope
 import com.arkivanov.mvikotlin.extensions.coroutines.states
@@ -20,16 +18,11 @@ import info.marozzo.tournament.desktop.i18n.LocalStrings
 import info.marozzo.tournament.desktop.i18n.ProvideStrings
 import info.marozzo.tournament.desktop.i18n.rememberStrings
 import info.marozzo.tournament.desktop.theme.AppTheme
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
 
 fun main() = SuspendApp {
     resourceScope {
         withAppDirs {
             withDb {
-                db.settingsQueries.select().asFlow().mapToOne(Dispatchers.IO).collectLatest {
-                    println(it)
-                }
                 withStores {
                     application(exitProcessOnExit = false) {
                         val state by tournament.states.collectAsState(tournament.state)

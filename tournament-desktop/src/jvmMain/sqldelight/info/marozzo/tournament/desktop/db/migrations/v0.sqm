@@ -1,3 +1,7 @@
+CREATE TABLE DbVersion (
+    version BIGINT AS VALUE PRIMARY KEY NOT NULL
+);
+
 CREATE TABLE Settings (
     id INT AS VALUE PRIMARY KEY NOT NULL,
     languageTag CHAR(2),
@@ -14,3 +18,5 @@ CREATE TABLE FileHistory(
     lastAccess TIMESTAMP NOT NULL,
     version INT AS LOCK
 );
+
+INSERT INTO DbVersion (version) VALUES (1);

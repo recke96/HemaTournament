@@ -7,6 +7,8 @@ import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import info.marozzo.tournament.desktop.application.dirs.AppDirsContext
 import info.marozzo.tournament.desktop.db.AppDb
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 internal interface DbContext {
     val db: AppDb
@@ -28,7 +30,19 @@ internal suspend fun <T> withDb(block: suspend DbContext.() -> T): T {
         override val db = AppDb(driver)
     }
 
-    AppDb.Schema.migrate(driver, 0L, AppDb.Schema.version)
+    val current = withContext(Dispatchers.IO) {
+        runCatching {
+            context.db.dbVersionQueries.selectLatest().executeAsOneOrNull()?.version
+        }.getOrNull()
+    }
+
+    println("DB version:")
+    println("Actual: $current | Schema: ${AppDb.Schema.version}")
+    if (current == null || current != AppDb.Schema.version) {
+        withContext(Dispatchers.IO) {
+            AppDb.Schema.migrate(driver, current ?: 0L, AppDb.Schema.version)
+        }
+    }
 
     return context.block()
 }
