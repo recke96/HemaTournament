@@ -7,11 +7,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import info.marozzo.tournament.desktop.application.stores.AcceptFunction
-import info.marozzo.tournament.desktop.application.stores.tournament.NoEventState
+import info.marozzo.tournament.desktop.application.stores.tournament.TournamentIntent
 
 @Composable
-internal fun NoEventScreen(accept: AcceptFunction) {
+internal fun NoEventScreen(accept: (TournamentIntent) -> Unit) {
     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
         Text(text = "Hello World!", style = MaterialTheme.typography.titleLarge)
     }

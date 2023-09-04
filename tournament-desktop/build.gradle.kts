@@ -48,8 +48,6 @@ kotlin {
                 implementation(libs.bundles.arrow)
                 implementation(libs.arrow.suspendapp)
 
-                implementation(libs.bundles.koin)
-
                 implementation(libs.appdirs)
 
                 runtimeOnly(libs.h2)

@@ -1,11 +1,16 @@
 package info.marozzo.tournament.desktop.application.stores.tournament
 
+import arrow.fx.coroutines.ResourceScope
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.swing.Swing
+import kotlinx.coroutines.withContext
 
 internal interface TournamentStore : Store<TournamentIntent, TournamentState, Nothing> {
     companion object {
-        fun create(
+
+        private fun createInternal(
             storeFactory: StoreFactory,
             executorFactory: () -> TournamentExecutor,
             reducer: TournamentReducer,
@@ -15,7 +20,21 @@ internal interface TournamentStore : Store<TournamentIntent, TournamentState, No
                 initialState = NoEventState,
                 executorFactory = executorFactory,
                 reducer = reducer,
-                autoInit = false,
             ) {}
+
+        context (ResourceScope)
+        suspend fun create(
+            storeFactory: StoreFactory,
+            executorFactory: () -> TournamentExecutor,
+            reducer: TournamentReducer,
+        ): TournamentStore = install(
+            {
+                withContext(Dispatchers.Swing) { createInternal(storeFactory, executorFactory, reducer) }
+            },
+            { t, _ ->
+                withContext(Dispatchers.Swing) { t.dispose() }
+            }
+        )
     }
 }
+

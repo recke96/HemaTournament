@@ -13,7 +13,6 @@ arrow = "1.2.0"
 arrow-suspendapp = "0.4.0"
 mvi = "3.2.1"
 lyricist = "1.4.2"
-koin = "3.4.3"
 appdirs = "1.2.2"
 h2 = "2.2.222"
 sqldelight = "2.0.0"
@@ -35,8 +34,6 @@ mvi-main = { group = "com.arkivanov.mvikotlin", name = "mvikotlin-main", version
 mvi-coroutines = { group = "com.arkivanov.mvikotlin", name = "mvikotlin-extensions-coroutines", version.ref = "mvi" }
 lyricist = { group = "cafe.adriel.lyricist", name = "lyricist", version.ref = "lyricist" }
 lyricist-processor = { group = "cafe.adriel.lyricist", name = "lyricist-processor", version.ref = "lyricist" }
-koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
-koin-coroutines = { group = "io.insert-koin", name = "koin-core-coroutines", version.ref = "koin" }
 appdirs = { group = "net.harawata", name = "appdirs", version.ref = "appdirs" }
 h2 = { group = "com.h2database", name = "h2", version.ref = "h2" }
 hikaricp = { group = "com.zaxxer", name = "HikariCP", version.ref = "hikaricp" }
@@ -51,7 +48,6 @@ kotest-runner-jvm = { group = "io.kotest", name = "kotest-runner-junit5-jvm", ve
 arrow = ["arrow-core", "arrow-coroutines"]
 kotest-common = ["kotest-assertions-core", "kotest-property", "kotest-arb-extension"]
 mvi = ["mvi", "mvi-main", "mvi-coroutines"]
-koin = ["koin-core", "koin-coroutines"]
 
 [plugins]
 kotlin-mpp = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
