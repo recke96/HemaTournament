@@ -6,7 +6,7 @@ pluginManagement {
 	}
 
 	plugins {
-		kotlin("multiplatform") version "1.9.0" apply false
+		kotlin("multiplatform") version "1.9.10" apply false
 		id("org.jetbrains.dokka") version "1.9.0" apply false
 		id("org.jetbrains.compose") version "1.5.0" apply false
 		id("io.kotest.multiplatform") version "5.7.1" apply false
