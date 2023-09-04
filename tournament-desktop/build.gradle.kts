@@ -1,4 +1,4 @@
-import com.fasterxml.jackson.module.kotlin.kotlinModule
+
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -53,6 +53,7 @@ kotlin {
                 runtimeOnly(libs.h2)
                 implementation(libs.hikaricp)
                 implementation(libs.sqldelight.driver)
+                implementation(libs.sqldelight.extensions.coroutines)
             }
         }
         val jvmTest by getting

@@ -39,6 +39,7 @@ h2 = { group = "com.h2database", name = "h2", version.ref = "h2" }
 hikaricp = { group = "com.zaxxer", name = "HikariCP", version.ref = "hikaricp" }
 sqldelight-driver = { group = "app.cash.sqldelight", name = "jdbc-driver", version.ref = "sqldelight" }
 sqldelight-dialect-h2 = { group = "app.cash.sqldelight", name = "hsql-dialect", version.ref = "sqldelight" }
+sqldelight-extensions-coroutines = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight" }
 kotest-assertions-core = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
 kotest-property = { group = "io.kotest", name = "kotest-property", version.ref = "kotest" }
 kotest-arb-extension = { group = "io.kotest.extensions", name = "kotest-property-arbs", version.ref = "kotest-arb-extensions" }
