@@ -52,8 +52,9 @@ kotlin {
 
                 implementation(libs.appdirs)
 
-                implementation(libs.sqldelight.driver)
                 runtimeOnly(libs.h2)
+                implementation(libs.hikaricp)
+                implementation(libs.sqldelight.driver)
             }
         }
         val jvmTest by getting
