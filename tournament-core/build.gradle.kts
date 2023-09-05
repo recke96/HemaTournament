@@ -33,7 +33,7 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation("io.kotest:kotest-assertions-core:5.7.1")
-                implementation("io.kotest:kotest-property:5.7.1")
+                implementation("io.kotest:kotest-property:5.7.2")
                 implementation("io.kotest.extensions:kotest-property-arbs:2.1.2")
 
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
