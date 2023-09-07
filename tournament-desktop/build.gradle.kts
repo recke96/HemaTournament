@@ -50,8 +50,7 @@ kotlin {
 
                 implementation(libs.appdirs)
 
-                runtimeOnly(libs.h2)
-                implementation(libs.hikaricp)
+                implementation(libs.h2)
                 implementation(libs.sqldelight.driver)
                 implementation(libs.sqldelight.extensions.coroutines)
             }

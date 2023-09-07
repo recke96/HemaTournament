@@ -16,7 +16,6 @@ lyricist = "1.4.2"
 appdirs = "1.2.2"
 h2 = "2.2.222"
 sqldelight = "2.0.0"
-hikaricp = "5.0.1"
 
 [libraries]
 dokka-mathjax = { group = "org.jetbrains.dokka", name = "mathjax-plugin", version.ref = "dokka" }
@@ -36,7 +35,6 @@ lyricist = { group = "cafe.adriel.lyricist", name = "lyricist", version.ref = "l
 lyricist-processor = { group = "cafe.adriel.lyricist", name = "lyricist-processor", version.ref = "lyricist" }
 appdirs = { group = "net.harawata", name = "appdirs", version.ref = "appdirs" }
 h2 = { group = "com.h2database", name = "h2", version.ref = "h2" }
-hikaricp = { group = "com.zaxxer", name = "HikariCP", version.ref = "hikaricp" }
 sqldelight-driver = { group = "app.cash.sqldelight", name = "jdbc-driver", version.ref = "sqldelight" }
 sqldelight-dialect-h2 = { group = "app.cash.sqldelight", name = "hsql-dialect", version.ref = "sqldelight" }
 sqldelight-extensions-coroutines = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight" }
