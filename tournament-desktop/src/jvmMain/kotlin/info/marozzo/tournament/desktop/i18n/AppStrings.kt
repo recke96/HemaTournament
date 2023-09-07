@@ -1,8 +1,9 @@
 package info.marozzo.tournament.desktop.i18n
 
-internal object Locales {
-    const val EN = "en"
-    const val DE = "de"
+enum class LanguageTag(private val tag: String?) {
+    SYSTEM(null), DE("de"), EN("en");
+
+    override fun toString() = tag ?: "<SYSTEM>"
 }
 
 internal interface AppStrings {

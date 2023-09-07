@@ -2,8 +2,12 @@ package info.marozzo.tournament.desktop.i18n
 
 import cafe.adriel.lyricist.LyricistStrings
 
-@LyricistStrings(languageTag = Locales.EN, default = true)
-internal val EnAppStrings = object : AppStrings {
+@LyricistStrings(languageTag = EnStrings.TAG, default = true)
+internal val EnAppStrings: AppStrings = EnStrings
+
+private object EnStrings : AppStrings {
+    const val TAG = "en"
+
     override val appTitle = "Tournament Planner"
     override val common = object : Common {
         override val ok = "Ok"

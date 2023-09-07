@@ -1,22 +1,27 @@
-CREATE TABLE DbVersion (
-    version BIGINT AS VALUE PRIMARY KEY NOT NULL
+import info.marozzo.tournament.desktop.i18n.LanguageTag;
+import info.marozzo.tournament.desktop.theme.Theme;
+
+CREATE TABLE IF NOT EXISTS DbVersion (
+    version BIGINT PRIMARY KEY NOT NULL
 );
 
-CREATE TABLE Settings (
-    id INT AS VALUE PRIMARY KEY NOT NULL,
-    languageTag CHAR(2),
-    version INT AS LOCK
+INSERT INTO DbVersion (version)
+VALUES (1);
+
+CREATE TABLE IF NOT EXISTS Settings (
+    id INT PRIMARY KEY NOT NULL,
+    languageTag VARCHAR(5) AS LanguageTag NOT NULL,
+    theme VARCHAR(5) AS Theme NOT NULL,
+    version INT AS LOCK NOT NULL
 );
 
-INSERT INTO Settings (id, languageTag, version)
-VALUES (1, NULL, 0);
+INSERT INTO Settings (id, languageTag, theme, version)
+VALUES (0, "SYSTEM", "SYSTEM", 1);
 
-CREATE TABLE FileHistory(
-    id INT AS VALUE PRIMARY KEY NOT NULL,
-    file VARCHAR(4096) NOT NULL,
+CREATE TABLE IF NOT EXISTS FileHistory(
+    id INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    path VARCHAR(4096) NOT NULL,
     firstAccess TIMESTAMP NOT NULL,
     lastAccess TIMESTAMP NOT NULL,
-    version INT AS LOCK
+    version INT AS LOCK NOT NULL DEFAULT(0)
 );
-
-INSERT INTO DbVersion (version) VALUES (1);

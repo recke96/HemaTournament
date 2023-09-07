@@ -34,15 +34,19 @@ private val DarkColors = darkColorScheme(
     onSurface = md_theme_dark_onSurface,
 )
 
+enum class Theme {
+    SYSTEM, DARK, LIGHT
+}
+
 @Composable
 fun AppTheme(
-    useDarkTheme: Boolean = isSystemInDarkTheme(),
+    theme: Theme = Theme.SYSTEM,
     content: @Composable () -> Unit
 ) {
-    val colors = if (!useDarkTheme) {
-        LightColors
-    } else {
-        DarkColors
+    val colors = when (theme) {
+        Theme.SYSTEM -> if(isSystemInDarkTheme()) DarkColors else LightColors
+        Theme.DARK -> DarkColors
+        Theme.LIGHT -> LightColors
     }
 
     MaterialTheme(

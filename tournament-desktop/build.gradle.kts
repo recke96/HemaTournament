@@ -40,6 +40,7 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.swing)
 
                 implementation(libs.kotlinx.collections.immutable)
+                implementation(libs.kotlinx.datetime)
 
                 implementation(libs.bundles.mvi)
 

@@ -9,7 +9,6 @@ import kotlinx.coroutines.withContext
 
 internal interface TournamentStore : Store<TournamentIntent, TournamentState, Nothing> {
     companion object {
-
         private fun createInternal(
             storeFactory: StoreFactory,
             executorFactory: () -> TournamentExecutor,

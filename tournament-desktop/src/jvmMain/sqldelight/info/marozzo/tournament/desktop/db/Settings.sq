@@ -1,9 +1,16 @@
 select:
 SELECT *
-FROM Settings;
+FROM Settings
+WHERE id = 0;
 
 updateLanguage:
 UPDATE Settings
 SET languageTag = :languageTag,
     version = :version + 1
-WHERE id = :id AND version = :version;
+WHERE id = 0 AND version = :version;
+
+updateTheme:
+UPDATE Settings
+SET theme = :theme,
+    version = :version + 1
+WHERE id = 0 AND version = :version;

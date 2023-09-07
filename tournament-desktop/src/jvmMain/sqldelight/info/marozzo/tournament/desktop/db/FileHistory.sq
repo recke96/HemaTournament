@@ -1,6 +1,6 @@
 insert:
-INSERT INTO FileHistory (id, file, firstAccess, lastAccess, version)
-VALUES ?;
+INSERT INTO FileHistory (path, firstAccess, lastAccess)
+VALUES (:path, :firstAccess, :lastAccess);
 
 update:
 UPDATE FileHistory
