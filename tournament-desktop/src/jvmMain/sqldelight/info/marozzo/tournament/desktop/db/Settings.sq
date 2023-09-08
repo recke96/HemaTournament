@@ -5,12 +5,10 @@ WHERE id = 0;
 
 updateLanguage:
 UPDATE Settings
-SET languageTag = :languageTag,
-    version = :version + 1
-WHERE id = 0 AND version = :version;
+SET languageTag = :languageTag
+WHERE id = 0;
 
 updateTheme:
 UPDATE Settings
-SET theme = :theme,
-    version = :version + 1
-WHERE id = 0 AND version = :version;
+SET theme = :theme
+WHERE id = 0;

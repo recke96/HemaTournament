@@ -13,6 +13,7 @@ import com.arkivanov.mvikotlin.extensions.coroutines.states
 import info.marozzo.tournament.desktop.application.db.withDb
 import info.marozzo.tournament.desktop.application.dirs.withAppDirs
 import info.marozzo.tournament.desktop.application.stores.withStores
+import info.marozzo.tournament.desktop.application.withClock
 import info.marozzo.tournament.desktop.components.CloseConfirmationDialog
 import info.marozzo.tournament.desktop.i18n.LocalStrings
 import info.marozzo.tournament.desktop.i18n.ProvideStrings
@@ -21,28 +22,30 @@ import info.marozzo.tournament.desktop.theme.AppTheme
 
 fun main() = SuspendApp {
     resourceScope {
-        withAppDirs {
-            withDb {
-                withStores {
-                    application(exitProcessOnExit = false) {
-                        val state by tournament.states.collectAsState(tournament.state)
-                        val windowState = rememberWindowState(
-                            placement = WindowPlacement.Maximized, size = DpSize.Unspecified
-                        )
-                        val (isCloseRequested, setIsCloseRequested) = remember { mutableStateOf(false) }
-                        ProvideStrings(rememberStrings(languageTag = Locale.current.toLanguageTag())) {
-                            Window(
-                                title = LocalStrings.current.appTitle,
-                                state = windowState,
-                                onCloseRequest = { setIsCloseRequested(true) },
-                            ) {
-                                AppTheme {
-                                    TournamentApp(state, tournament::accept)
-                                    CloseConfirmationDialog(
-                                        isCloseRequested = isCloseRequested,
-                                        onClose = { exitApplication() },
-                                        onDismiss = { setIsCloseRequested(false) }
-                                    )
+        withClock {
+            withAppDirs {
+                withDb {
+                    withStores {
+                        application(exitProcessOnExit = false) {
+                            val state by tournament.states.collectAsState(tournament.state)
+                            val windowState = rememberWindowState(
+                                placement = WindowPlacement.Maximized, size = DpSize.Unspecified
+                            )
+                            val (isCloseRequested, setIsCloseRequested) = remember { mutableStateOf(false) }
+                            ProvideStrings(rememberStrings(languageTag = Locale.current.toLanguageTag())) {
+                                Window(
+                                    title = LocalStrings.current.appTitle,
+                                    state = windowState,
+                                    onCloseRequest = { setIsCloseRequested(true) },
+                                ) {
+                                    AppTheme {
+                                        TournamentApp(state, tournament::accept)
+                                        CloseConfirmationDialog(
+                                            isCloseRequested = isCloseRequested,
+                                            onClose = { exitApplication() },
+                                            onDismiss = { setIsCloseRequested(false) }
+                                        )
+                                    }
                                 }
                             }
                         }

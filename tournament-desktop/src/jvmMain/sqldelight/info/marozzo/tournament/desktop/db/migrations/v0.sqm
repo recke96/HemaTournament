@@ -11,17 +11,15 @@ VALUES (1);
 CREATE TABLE IF NOT EXISTS Settings (
     id INT PRIMARY KEY NOT NULL,
     languageTag VARCHAR(5) AS LanguageTag NOT NULL,
-    theme VARCHAR(5) AS Theme NOT NULL,
-    version INT AS LOCK NOT NULL
+    theme VARCHAR(5) AS Theme NOT NULL
 );
 
-INSERT INTO Settings (id, languageTag, theme, version)
-VALUES (0, "SYSTEM", "SYSTEM", 1);
+INSERT INTO Settings (id, languageTag, theme)
+VALUES (0, "SYSTEM", "SYSTEM");
 
 CREATE TABLE IF NOT EXISTS FileHistory(
     id INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
     path VARCHAR(4096) NOT NULL,
     firstAccess TIMESTAMP NOT NULL,
-    lastAccess TIMESTAMP NOT NULL,
-    version INT AS LOCK NOT NULL DEFAULT(0)
+    lastAccess TIMESTAMP NOT NULL
 );

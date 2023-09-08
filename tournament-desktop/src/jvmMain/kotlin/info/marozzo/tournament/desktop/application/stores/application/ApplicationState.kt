@@ -10,19 +10,12 @@ import kotlinx.collections.immutable.PersistentSet
 import kotlinx.datetime.Instant
 
 @Immutable
-internal sealed interface ApplicationState : Timestamped
-
-@Immutable
-internal data class InitializingState(override val timestamp: Instant) : ApplicationState
-
-@Immutable
-internal data class SettingsState(
-    val settingsVersion: Settings.Version,
+internal data class ApplicationState(
     val language: LanguageTag,
     val theme: Theme,
     val recent: PersistentSet<FileHistory>,
     override val timestamp: Instant
-) : ApplicationState
+) : Timestamped
 
 internal sealed interface ApplicationIntent
 

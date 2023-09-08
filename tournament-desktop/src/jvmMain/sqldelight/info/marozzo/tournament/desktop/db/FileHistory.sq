@@ -4,9 +4,8 @@ VALUES (:path, :firstAccess, :lastAccess);
 
 update:
 UPDATE FileHistory
-SET lastAccess = :accessed,
-    version = :version + 1
-WHERE id = :id AND version = :version;
+SET lastAccess = :accessed
+WHERE id = :id;
 
 selectRecent:
 SELECT *

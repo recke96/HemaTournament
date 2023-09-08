@@ -3,6 +3,7 @@ package info.marozzo.tournament.desktop.application.stores.tournament
 import arrow.fx.coroutines.ResourceScope
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
+import info.marozzo.tournament.desktop.application.onMain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.swing.Swing
 import kotlinx.coroutines.withContext
@@ -27,12 +28,8 @@ internal interface TournamentStore : Store<TournamentIntent, TournamentState, No
             executorFactory: () -> TournamentExecutor,
             reducer: TournamentReducer,
         ): TournamentStore = install(
-            {
-                withContext(Dispatchers.Swing) { createInternal(storeFactory, executorFactory, reducer) }
-            },
-            { t, _ ->
-                withContext(Dispatchers.Swing) { t.dispose() }
-            }
+            { onMain { createInternal(storeFactory, executorFactory, reducer) } },
+            { t, _ -> onMain { t.dispose() } }
         )
     }
 }
