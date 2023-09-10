@@ -1,5 +1,6 @@
 package info.marozzo.tournament.desktop.application.stores.application
 
+import app.cash.sqldelight.db.QueryResult
 import app.cash.sqldelight.db.SqlDriver
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineBootstrapper
 import info.marozzo.tournament.desktop.application.onMain
@@ -17,9 +18,19 @@ internal class ApplicationBootstrapper(private val driver: SqlDriver, private va
     override fun invoke() {
         scope.launch(Dispatchers.IO) {
             val latest = AppDb.Schema.version
-            val current = runCatching {
+
+            val exists = driver.executeQuery(
+                null,
+                "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES tbl WHERE tbl.TABLE_NAME = 'DBVERSION'",
+                mapper = {
+                    QueryResult.Value(it.next().value && it.getLong(0)!! > 0)
+                },
+                0
+            ).await()
+
+            val current = if (exists) {
                 db.dbVersionQueries.selectLatest().executeAsOne()
-            }.getOrDefault(0L)
+            } else 0L
 
             if (current < AppDb.Schema.version) {
                 AppDb.Schema.migrate(driver, current, latest)
