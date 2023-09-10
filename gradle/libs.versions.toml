@@ -1,5 +1,5 @@
 [versions]
-kotlin = "1.9.0"
+kotlin = "1.9.10"
 compose = "1.5.1"
 kotest = "5.7.1"
 kotest-arb-extensions = "2.1.2"
