@@ -10,8 +10,6 @@ import info.marozzo.tournament.desktop.db.AppDb
 import info.marozzo.tournament.desktop.db.migrations.Settings
 import info.marozzo.tournament.desktop.i18n.LanguageTag
 import info.marozzo.tournament.desktop.theme.Theme
-import org.apache.logging.log4j.Level
-import org.apache.logging.log4j.io.IoBuilder
 import org.h2.jdbcx.JdbcConnectionPool
 
 internal interface DbContext {
@@ -24,13 +22,7 @@ internal suspend fun <T> withDb(block: suspend DbContext.() -> T): T {
     val dbFile = dataDir.resolve("appdata")
 
     val dataSource = install(
-        {
-            JdbcConnectionPool.create("jdbc:h2:$dbFile", "sa", "").apply {
-                logWriter = IoBuilder.forLogger(JdbcConnectionPool::class.java)
-                    .setLevel(Level.DEBUG)
-                    .buildPrintWriter()
-            }
-        },
+        { JdbcConnectionPool.create("jdbc:h2:$dbFile", "sa", "") },
         { pool, _ -> pool.dispose() }
     )
     val driver = closeable { dataSource.asJdbcDriver() }

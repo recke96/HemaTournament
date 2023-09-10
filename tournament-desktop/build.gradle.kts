@@ -55,7 +55,6 @@ kotlin {
                 implementation(libs.sqldelight.driver)
                 implementation(libs.sqldelight.extensions.coroutines)
 
-                implementation(libs.bundles.logging)
             }
         }
         val jvmTest by getting
