@@ -16,6 +16,8 @@ lyricist = "1.4.2"
 appdirs = "1.2.2"
 h2 = "2.2.222"
 sqldelight = "2.0.0"
+log4j2 = "2.20.0"
+log4j2-kotlin = "1.2.0"
 
 [libraries]
 dokka-mathjax = { group = "org.jetbrains.dokka", name = "mathjax-plugin", version.ref = "dokka" }
@@ -38,6 +40,11 @@ h2 = { group = "com.h2database", name = "h2", version.ref = "h2" }
 sqldelight-driver = { group = "app.cash.sqldelight", name = "jdbc-driver", version.ref = "sqldelight" }
 sqldelight-dialect-h2 = { group = "app.cash.sqldelight", name = "hsql-dialect", version.ref = "sqldelight" }
 sqldelight-extensions-coroutines = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight" }
+log4j2-api = { group = "org.apache.logging.log4j", name = "log4j-api", version.ref = "log4j2" }
+log4j2-core = { group = "org.apache.logging.log4j", name = "log4j-core", version.ref = "log4j2" }
+log4j2-slf4j = { group = "org.apache.logging.log4j", name = "log4j-slf4j-impl", version.ref = "log4j2" }
+log4j2-iostreams = { group = "org.apache.logging.log4j", name = "log4j-iostreams", version.ref = "log4j2" }
+log4j2-kotlin = { group = "org.apache.logging.log4j", name = "log4j-api-kotlin", version.ref = "log4j2-kotlin" }
 kotest-assertions-core = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
 kotest-property = { group = "io.kotest", name = "kotest-property", version.ref = "kotest" }
 kotest-arb-extension = { group = "io.kotest.extensions", name = "kotest-property-arbs", version.ref = "kotest-arb-extensions" }
@@ -47,6 +54,7 @@ kotest-runner-jvm = { group = "io.kotest", name = "kotest-runner-junit5-jvm", ve
 arrow = ["arrow-core", "arrow-coroutines"]
 kotest-common = ["kotest-assertions-core", "kotest-property", "kotest-arb-extension"]
 mvi = ["mvi", "mvi-main", "mvi-coroutines"]
+logging = ["log4j2-api", "log4j2-core", "log4j2-slf4j", "log4j2-iostreams", "log4j2-kotlin"]
 
 [plugins]
 kotlin-mpp = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
