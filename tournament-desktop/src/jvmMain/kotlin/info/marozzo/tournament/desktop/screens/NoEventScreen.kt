@@ -12,6 +12,6 @@ import info.marozzo.tournament.desktop.application.stores.tournament.TournamentI
 @Composable
 internal fun NoEventScreen(accept: (TournamentIntent) -> Unit) {
     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-        Text(text = "Hello World!", style = MaterialTheme.typography.titleLarge)
+        Text(text = "Hello World!", style = MaterialTheme.typography.displayLarge)
     }
 }

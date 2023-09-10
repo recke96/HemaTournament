@@ -10,8 +10,8 @@ VALUES (1);
 
 CREATE TABLE IF NOT EXISTS Settings (
     id INT PRIMARY KEY NOT NULL,
-    languageTag VARCHAR(5) AS LanguageTag NOT NULL,
-    theme VARCHAR(5) AS Theme NOT NULL
+    languageTag VARCHAR(6) AS LanguageTag NOT NULL,
+    theme VARCHAR(6) AS Theme NOT NULL
 );
 
 INSERT INTO Settings (id, languageTag, theme)

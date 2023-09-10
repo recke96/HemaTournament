@@ -5,6 +5,7 @@ import info.marozzo.tournament.desktop.application.onIo
 import info.marozzo.tournament.desktop.application.stores.TrySetStateMessage
 import info.marozzo.tournament.desktop.db.AppDb
 import info.marozzo.tournament.desktop.i18n.LanguageTag
+import info.marozzo.tournament.desktop.screens.Screen
 import info.marozzo.tournament.desktop.theme.Theme
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
@@ -26,8 +27,8 @@ internal class ApplicationExecutor(
     override fun executeIntent(intent: ApplicationIntent, getState: () -> ApplicationState) {
         when (intent) {
             is SetTheme -> scope.launch { updateTheme(intent.theme, getState) }
-
-            is SetLanguage -> TODO()
+            is SetLanguage -> scope.launch { updateLanguage(intent.languageTag, getState) }
+            is ChangeScreen -> updateScreen(intent.screen, getState)
         }
     }
 
@@ -43,6 +44,13 @@ internal class ApplicationExecutor(
         val files = onIo { db.fileHistoryQueries.selectRecent(5).executeAsList() }
         val current = getState()
         val new = current.copy(recent = current.recent.addAll(files), timestamp = clock.now())
+
+        dispatch(TrySetApplicationStateMsg(new, current.timestamp))
+    }
+
+    private fun updateScreen(screen: Screen, getState: () -> ApplicationState) {
+        val current = getState()
+        val new = current.copy(screen = screen, timestamp = clock.now())
 
         dispatch(TrySetApplicationStateMsg(new, current.timestamp))
     }

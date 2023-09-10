@@ -8,16 +8,25 @@ enum class LanguageTag(private val tag: String?) {
 
 internal interface AppStrings {
     val appTitle: String
+
     val common: Common
+
+    interface Common {
+        val ok: String
+        val cancel: String
+    }
+
+    val navigation: Navigation
+
+    interface Navigation {
+        val home: String
+        val settings: String
+    }
+
     val closeDialog: CloseDialog
-}
 
-internal interface Common {
-    val ok: String
-    val cancel: String
-}
-
-internal interface CloseDialog {
-    val title: String
-    val text: String
+    interface CloseDialog {
+        val title: String
+        val text: String
+    }
 }

@@ -27,7 +27,8 @@ fun main() = SuspendApp {
                 withDb {
                     withStores {
                         application(exitProcessOnExit = false) {
-                            val state by tournament.states.collectAsState(tournament.state)
+                            val applicationState by application.states.collectAsState(application.state)
+                            val tournamentState by tournament.states.collectAsState(tournament.state)
                             val windowState = rememberWindowState(
                                 placement = WindowPlacement.Maximized, size = DpSize.Unspecified
                             )
@@ -39,7 +40,12 @@ fun main() = SuspendApp {
                                     onCloseRequest = { setIsCloseRequested(true) },
                                 ) {
                                     AppTheme {
-                                        TournamentApp(state, tournament::accept)
+                                        TournamentApp(
+                                            applicationState,
+                                            application::accept,
+                                            tournamentState,
+                                            tournament::accept
+                                        )
                                         CloseConfirmationDialog(
                                             isCloseRequested = isCloseRequested,
                                             onClose = { exitApplication() },

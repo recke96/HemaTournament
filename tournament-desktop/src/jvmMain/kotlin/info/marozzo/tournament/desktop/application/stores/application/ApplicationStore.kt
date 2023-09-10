@@ -7,6 +7,7 @@ import com.arkivanov.mvikotlin.core.store.StoreFactory
 import info.marozzo.tournament.desktop.application.ClockContext
 import info.marozzo.tournament.desktop.application.onMain
 import info.marozzo.tournament.desktop.i18n.LanguageTag
+import info.marozzo.tournament.desktop.screens.Screen
 import info.marozzo.tournament.desktop.theme.Theme
 import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.datetime.Clock
@@ -22,7 +23,7 @@ internal interface ApplicationStore : Store<ApplicationIntent, ApplicationState,
         ): ApplicationStore =
             object : ApplicationStore, Store<ApplicationIntent, ApplicationState, Nothing> by storeFactory.create(
                 name = "ApplicationStore",
-                initialState = ApplicationState(LanguageTag.SYSTEM, Theme.SYSTEM, persistentSetOf(), clock.now()),
+                initialState = ApplicationState(Screen.HOME, LanguageTag.SYSTEM, Theme.SYSTEM, persistentSetOf(), clock.now()),
                 bootstrapper = bootstrapper,
                 executorFactory = executorFactory,
                 reducer = reducer
