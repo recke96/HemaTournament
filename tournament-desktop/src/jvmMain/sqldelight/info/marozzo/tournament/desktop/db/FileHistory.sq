@@ -1,0 +1,14 @@
+insert:
+INSERT INTO FileHistory (path, firstAccess, lastAccess)
+VALUES (:path, :firstAccess, :lastAccess);
+
+update:
+UPDATE FileHistory
+SET lastAccess = :accessed
+WHERE id = :id;
+
+selectRecent:
+SELECT *
+FROM FileHistory
+ORDER BY lastAccess DESC
+LIMIT :limit;

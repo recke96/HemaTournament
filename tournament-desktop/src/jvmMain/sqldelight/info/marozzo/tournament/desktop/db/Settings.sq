@@ -1,0 +1,14 @@
+select:
+SELECT *
+FROM Settings
+WHERE id = 0;
+
+updateLanguage:
+UPDATE Settings
+SET languageTag = :languageTag
+WHERE id = 0;
+
+updateTheme:
+UPDATE Settings
+SET theme = :theme
+WHERE id = 0;

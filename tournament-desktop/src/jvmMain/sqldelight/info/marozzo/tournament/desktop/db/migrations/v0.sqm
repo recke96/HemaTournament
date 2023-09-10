@@ -1,0 +1,25 @@
+import info.marozzo.tournament.desktop.i18n.LanguageTag;
+import info.marozzo.tournament.desktop.theme.Theme;
+
+CREATE TABLE IF NOT EXISTS DbVersion (
+    version BIGINT PRIMARY KEY NOT NULL
+);
+
+INSERT INTO DbVersion (version)
+VALUES (1);
+
+CREATE TABLE IF NOT EXISTS Settings (
+    id INT PRIMARY KEY NOT NULL,
+    languageTag VARCHAR(6) AS LanguageTag NOT NULL,
+    theme VARCHAR(6) AS Theme NOT NULL
+);
+
+INSERT INTO Settings (id, languageTag, theme)
+VALUES (0, 'SYSTEM', 'SYSTEM');
+
+CREATE TABLE IF NOT EXISTS FileHistory(
+    id INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    path VARCHAR(4096) NOT NULL,
+    firstAccess TIMESTAMP NOT NULL,
+    lastAccess TIMESTAMP NOT NULL
+);

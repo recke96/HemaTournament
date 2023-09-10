@@ -1,8 +1,9 @@
 plugins {
-    kotlin("multiplatform")
-    id("org.jetbrains.dokka")
-    id("io.kotest.multiplatform")
-    id("org.jetbrains.kotlinx.kover")
+    alias(libs.plugins.kotlin.mpp)
+    alias(libs.plugins.dokka)
+    alias(libs.plugins.kotest.mpp)
+    alias(libs.plugins.kotlinx.kover)
+    alias(libs.plugins.ksp)
 }
 
 group = "info.marozzo.tournament"
@@ -13,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    dokkaPlugin("org.jetbrains.dokka:mathjax-plugin:1.9.0")
+    dokkaPlugin(libs.dokka.mathjax)
 }
 
 kotlin {
@@ -25,36 +26,34 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
+                kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
+
+                implementation(libs.kotlinx.collections.immutable)
+                implementation(libs.kotlinx.coroutines.core)
+                implementation(libs.kotlinx.datetime)
+
+                implementation(libs.bundles.arrow)
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation("io.kotest:kotest-assertions-core:5.7.1")
-                implementation("io.kotest:kotest-property:5.7.1")
-                implementation("io.kotest.extensions:kotest-property-arbs:2.1.2")
-
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
-
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
-
+                implementation(libs.bundles.kotest.common)
+                implementation(libs.kotlinx.coroutines.test)
             }
         }
 
         val jvmMain by getting
         val jvmTest by getting {
             dependencies {
-                implementation("io.kotest:kotest-runner-junit5-jvm:5.7.1")
+                implementation(libs.kotest.runner.jvm)
             }
         }
     }
 }
 
 tasks.withType<Test>().configureEach {
-	useJUnitPlatform()
+    useJUnitPlatform()
     testLogging.setShowStandardStreams(true)
-    systemProperty("gradle.build.dir", project.buildDir)
+    val buildDir = layout.buildDirectory.asFile.get().path
+    systemProperty("gradle.build.dir", buildDir)
 }
-

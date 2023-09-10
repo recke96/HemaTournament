@@ -1,0 +1,5 @@
+selectLatest:
+SELECT version
+FROM DbVersion
+ORDER BY version DESC
+LIMIT 1;
