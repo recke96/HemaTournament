@@ -19,10 +19,10 @@ internal interface DbContext {
 
 context (ResourceScope, AppDirsContext)
 internal suspend fun <T> withDb(block: suspend DbContext.() -> T): T {
-    val dbFile = dataDir.resolve("appdata")
+    val dbFile = dataDir.resolve("appdata").toAbsolutePath()
 
     val dataSource = install(
-        { JdbcConnectionPool.create("jdbc:h2:$dbFile", "sa", "") },
+        { JdbcConnectionPool.create("jdbc:h2:$dbFile;TRACE_LEVEL_FILE=4", "sa", "") },
         { pool, _ -> pool.dispose() }
     )
     val driver = closeable { dataSource.asJdbcDriver() }
