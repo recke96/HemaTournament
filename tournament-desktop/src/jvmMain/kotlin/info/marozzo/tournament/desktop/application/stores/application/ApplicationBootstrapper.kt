@@ -5,6 +5,7 @@ import app.cash.sqldelight.db.SqlDriver
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineBootstrapper
 import info.marozzo.tournament.desktop.application.onMain
 import info.marozzo.tournament.desktop.db.AppDb
+import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -14,6 +15,8 @@ data object LoadRecentFileHistory : ApplicationAction
 
 internal class ApplicationBootstrapper(private val driver: SqlDriver, private val db: AppDb) :
     CoroutineBootstrapper<ApplicationAction>() {
+
+    private val logger = KotlinLogging.logger { }
 
     override fun invoke() {
         scope.launch(Dispatchers.IO) {
@@ -32,7 +35,14 @@ internal class ApplicationBootstrapper(private val driver: SqlDriver, private va
                 db.dbVersionQueries.selectLatest().executeAsOne()
             } else 0L
 
-            if (current < AppDb.Schema.version) {
+            if (current < latest) {
+                logger.atInfo {
+                    message = "Migrating DB from version $current to version $latest"
+                    payload = buildMap(2) {
+                        put("currentVersion", current)
+                        put("latestVersion", latest)
+                    }
+                }
                 AppDb.Schema.migrate(driver, current, latest)
             }
 
