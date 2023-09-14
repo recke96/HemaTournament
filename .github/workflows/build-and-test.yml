@@ -36,7 +36,7 @@ jobs:
         with:
           dependency-graph: generate-and-submit
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@701f152f28d4350ad289a5e31435e9ab6169a7ca # v2
+        uses: github/codeql-action/init@04daf014b50eaf774287bf3f0f1869d4b4c4b913 # v2
         with:
           languages: java
           queries: security-and-quality
@@ -46,4 +46,4 @@ jobs:
         run: cat ./tournament-core/build/reports/summary.md > $GITHUB_STEP_SUMMARY
         if: success() || failure()
       - name: CodeQL Analysis
-        uses: github/codeql-action/analyze@701f152f28d4350ad289a5e31435e9ab6169a7ca # v2
+        uses: github/codeql-action/analyze@04daf014b50eaf774287bf3f0f1869d4b4c4b913 # v2
