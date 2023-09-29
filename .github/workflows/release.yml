@@ -19,7 +19,7 @@ jobs:
       - name: Validate Gradle-Wrapper
         uses: gradle/wrapper-validation-action@56b90f209b02bf6d1deae490e9ef18b21a389cd4 # v1.1.0
       - name: Build & Package
-        uses: gradle/gradle-build-action@b5126f31dbc19dd434c3269bf8c28c315e121da2 # v2.8.1
+        uses: gradle/gradle-build-action@d1b726d8c1e0cc120447ad1a950d6e6794c51ad8 # v2.9.0
         with:
           arguments: packageReleaseMsi
       - name: Upload
@@ -39,7 +39,7 @@ jobs:
       - name: Validate Gradle-Wrapper
         uses: gradle/wrapper-validation-action@56b90f209b02bf6d1deae490e9ef18b21a389cd4 # v1.1.0
       - name: Build & Package
-        uses: gradle/gradle-build-action@b5126f31dbc19dd434c3269bf8c28c315e121da2 # v2.8.1
+        uses: gradle/gradle-build-action@d1b726d8c1e0cc120447ad1a950d6e6794c51ad8 # v2.9.0
         with:
           arguments: packageReleaseDeb
       - name: Upload
