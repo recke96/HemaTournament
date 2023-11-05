@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "vscjava.vscode-gradle",
-        "fwcd.kotlin"
+        "fwcd.kotlin",
+        "tamasfe.even-better-toml"
     ]
 }
