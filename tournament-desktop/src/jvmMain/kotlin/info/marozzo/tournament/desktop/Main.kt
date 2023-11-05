@@ -39,7 +39,7 @@ fun main() = SuspendApp {
                                     placement = WindowPlacement.Maximized, size = DpSize.Unspecified
                                 )
                                 val (isCloseRequested, setIsCloseRequested) = remember { mutableStateOf(false) }
-                                ProvideStrings(rememberStrings(languageTag = Locale.current.toLanguageTag())) {
+                                ProvideStrings(rememberStrings(currentLanguageTag = Locale.current.toLanguageTag())) {
                                     Window(
                                         title = LocalStrings.current.appTitle,
                                         state = windowState,
