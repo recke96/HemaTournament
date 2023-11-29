@@ -16,7 +16,7 @@ lyricist = "1.6.2"
 appdirs = "1.2.2"
 h2 = "2.2.224"
 sqldelight = "2.0.0"
-logback = "1.4.12"
+logback = "1.4.13"
 slf4j = "2.0.9"
 kotlin-logging = "5.1.1"
 
