@@ -23,7 +23,7 @@ jobs:
         with:
           arguments: packageReleaseMsi
       - name: Upload
-        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3
+        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392 # v4
         with:
           name: package-windows
           path: ${{ github.workspace }}/tournament-desktop/build/compose/binaries/main-release/msi/*.msi
@@ -43,7 +43,7 @@ jobs:
         with:
           arguments: packageReleaseDeb
       - name: Upload
-        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3
+        uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392 # v4
         with:
           name: package-debian
           path: ${{ github.workspace }}/tournament-desktop/build/compose/binaries/main-release/deb/*.deb
