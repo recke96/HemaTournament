@@ -18,7 +18,7 @@ h2 = "2.2.224"
 sqldelight = "2.0.1"
 logback = "1.4.14"
 slf4j = "2.0.9"
-kotlin-logging = "5.1.1"
+kotlin-logging = "6.0.1"
 
 [libraries]
 dokka-mathjax = { group = "org.jetbrains.dokka", name = "mathjax-plugin", version.ref = "dokka" }
