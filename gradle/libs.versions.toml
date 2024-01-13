@@ -17,7 +17,7 @@ appdirs = "1.2.2"
 h2 = "2.2.224"
 sqldelight = "2.0.1"
 logback = "1.4.14"
-slf4j = "2.0.9"
+slf4j = "2.0.11"
 kotlin-logging = "6.0.1"
 
 [libraries]
