@@ -1,6 +1,6 @@
 [versions]
 kotlin = "1.9.21"
-compose = "1.5.11"
+compose = "1.6.0"
 kotest = "5.8.0"
 kotest-arb-extensions = "2.1.2"
 kover = "0.7.5"
