@@ -1,3 +1,7 @@
+
+> [!WARNING]  
+> Replaced by [HEMAtoma](https://github.com/recke96/HEMAtoma)
+
 HEMA Tournament Organizer
 =========================
 
